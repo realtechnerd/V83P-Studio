@@ -1,0 +1,16 @@
+name: Idea or feature request
+description: Suggest something new, like a music style, a reaction or support for another keyboard.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like?
+      description: Describe the idea, and what you'd use it for.
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Examples, screenshots, or how another app does it. For a new keyboard, its exact name and QMK board name if you know it.

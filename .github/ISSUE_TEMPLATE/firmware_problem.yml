@@ -1,0 +1,62 @@
+name: Firmware problem
+description: Installing, updating or restoring firmware didn't work, or the keyboard misbehaves after it.
+labels: [firmware]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **First, don't worry:** the keyboard's flash mode is built into its chip and can't be overwritten.
+        To get there: unplug the cable, hold **Esc**, plug it back in, and let go after 2 seconds (the lights stay off).
+        Then run the wizard again, or use **Restore a backup…** on the Device page.
+  - type: dropdown
+    id: action
+    attributes:
+      label: What were you doing?
+      options:
+        - Installing the firmware for the first time (from the original firmware)
+        - Updating / reinstalling the V83P Studio firmware
+        - Restoring a backup
+        - Using the keyboard after installing
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Which step did the wizard stop at, and what did it say? A screenshot of the wizard helps a lot.
+    validations:
+      required: true
+  - type: dropdown
+    id: state
+    attributes:
+      label: What is the keyboard doing now?
+      options:
+        - Works normally
+        - Lights stay off and it doesn't type (probably still in flash mode)
+        - Types, but something is wrong (lighting, wireless, keys...)
+        - Not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: colorway
+    attributes:
+      label: Keyboard colorway
+      options: [Matcha, Mint]
+    validations:
+      required: true
+  - type: dropdown
+    id: wireless
+    attributes:
+      label: Do 2.4G and Bluetooth still work? (if you tried)
+      options: [Didn't try, "Yes", 2.4G doesn't work, Bluetooth doesn't work, Neither works]
+  - type: input
+    id: version
+    attributes:
+      label: V83P Studio version
+      placeholder: "0.9.0"
+  - type: textarea
+    id: log
+    attributes:
+      label: Log
+      description: Paste the end of `%APPDATA%\V83P Studio\backend.log`, or drag the file here.
+      render: text

@@ -1625,6 +1625,8 @@ async function boot() {
   $$(".nav button").forEach(b => b.onclick = () => showPage(b.dataset.page));
   $$("[data-goto-fw]").forEach(b => b.onclick = () => { showPage("device"); setTimeout(() => $("#dv-fw")?.scrollIntoView({ behavior: "smooth", block: "center" }), 50); });
   await refreshAll(true);
+  const start = location.hash.slice(1);         // e.g. #music opens that page (handy for screenshots)
+  if (start && $("#page-" + start)) showPage(start);
   setInterval(poll, 700);
   requestAnimationFrame(previewLoop);
 }

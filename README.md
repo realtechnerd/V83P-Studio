@@ -1,55 +1,102 @@
-# V83P Studio
+<h1 align="center">V83P Studio</h1>
 
-Lighting, keys, macros, music mode and more for the **Inland MK PRO V2** keyboard, without VIA.
+<p align="center">
+  Per-key RGB, Spotify music mode, macros and remapping for the <b>Inland MK PRO V2</b> (V83P) keyboard.<br>
+  A Windows app and custom QMK firmware that keeps 2.4G and Bluetooth working.
+</p>
+
+<p align="center">
+  <img src="docs/media/music-mode.gif" alt="V83P Studio music mode: the keyboard reacting to a song" width="900">
+</p>
+
+> **Preview release.** It works well on the developer's keyboard, but the firmware has only been tested on one Matcha
+> unit so far. The firmware wizard always backs up your keyboard's original firmware first, and you can put it back
+> at any time.
+
+## What it does
+- **Per-key lighting.** Click keys (or drag a box, or pick WASD / arrows / F-row…) and make each one a static color,
+  part of the animation, or off. Mix them freely: static WASD over a rainbow, for example.
+- **Music mode.** The keyboard dances to what Spotify is playing: 10 styles (spectrum, beat ripple, fireworks,
+  waterfall…), palettes that can follow the album art, and tuning for sensitivity, smoothing and dynamics. It can also
+  react to any sound on your PC.
+- **Reactions.** Light up when something happens: a loading animation while an app starts, or a scene while a game is
+  focused.
+- **Keys, macros and knob.** Remap all 4 layers, record or build macros (text, keys, shortcuts, delays), and choose what
+  the knob does. These are stored on the keyboard, so they work wireless and on any computer.
+- **Profiles.** Save everything and switch with one click, from the tray, or automatically per app.
+- **Firmware wizard.** Install, update or restore firmware from the app: driver, backup, flash and check, step by step.
+- **Looks like your keyboard.** Matcha or Mint keycaps, dark / light / system theme, and a **?** help on every page.
+
+| Lighting | Keys |
+|---|---|
+| ![Lighting page](docs/media/lighting.jpg) | ![Keys page](docs/media/keys.jpg) |
+| **Macros** | **Reactions** |
+| ![Macros page](docs/media/macros.jpg) | ![Reactions page](docs/media/reactions.jpg) |
 
 ## Install
-1. Download `V83P-Studio-Setup-<version>.exe` from Releases and run it. Windows SmartScreen may say "Windows protected
-   your PC" because the installer isn't code-signed yet: click **More info → Run anyway**.
-2. Plug the keyboard in with the cable (switch on **wired**) and open **V83P Studio**.
-3. For per-key colors, music mode and reactions: **Device → Firmware → Install firmware**. The wizard backs up your
-   keyboard's original firmware first, installs the flash driver if needed (Windows asks once), and walks you through
-   the Esc + plug-in step. **Restore a backup** puts the original back at any time.
+1. Download `V83P-Studio-Setup-<version>.exe` from [Releases](../../releases) and run it. Windows may say
+   "Windows protected your PC" because the installer isn't code-signed yet: click **More info → Run anyway**.
+2. Plug the keyboard in with the cable (switch on **wired**) and open **V83P Studio**. Pick your colorway.
+3. For per-key colors, music mode and reactions, install the firmware: **Device → Firmware → Install firmware**.
+   - It backs up your keyboard's original firmware to your PC first.
+   - Windows asks once for permission to install the flash driver.
+   - You'll unplug the cable, hold **Esc**, and plug it back in. The app tells you when.
+   - Your keyboard's settings reset to defaults once. Later updates keep them.
 
-No Python or other tools needed: everything is in the installer. Your settings, profiles and firmware backups are kept
+Everything is in the installer: no Python, QMK or other tools needed. Your settings, profiles and firmware backups live
 in `%APPDATA%\V83P Studio`.
+
+<p align="center"><img src="docs/media/device.jpg" alt="Device page with the firmware card" width="720"></p>
 
 ## Supported keyboards
 | | |
 |---|---|
-| **Supported** | **Inland MK PRO V2 75%**, in the **Matcha** and **Mint** colorways (QMK board `inland/v83p`, USB ID `FFFE:001B`) |
-| **Full features** | Need the V83P Studio firmware (installed from the app): per-key Static / Animated / Off, music mode, reactions, live preview of your real colors |
-| **Stock firmware** | Effects, brightness, speed, keymap, macros, knob and profiles work; per-key colors and music mode don't |
-| **Not supported** | Any other keyboard, including other Inland models. Razer / Logitech / Corsair and other non-QMK brands won't be: see [OpenRGB](https://openrgb.org) |
+| **Supported** | **Inland MK PRO V2 75%**, **Matcha** and **Mint** colorways (QMK `inland/v83p`, USB ID `FFFE:001B`) |
+| **With the V83P Studio firmware** | Everything: per-key lighting, music mode, reactions, live preview of your real colors |
+| **With the original firmware** | Effects, brightness, speed, keymap, macros, knob, reactions and profiles. Per-key lighting and music mode are locked until you install the firmware |
+| **Not supported** | Any other keyboard, including other Inland models. For other brands, see [OpenRGB](https://openrgb.org) |
 | **OS** | Windows 10 / 11 |
 
-The firmware was developed and tested on **one** Matcha unit, so use it at your own risk. The wizard always backs up
-the original firmware before the first install.
+## Known limits
+- **Windows only.**
+- **Editing and live features need the cable.** Changing settings, music mode, reactions and automatic profiles only
+  work wired (switch on **wired**). Everything you save keeps working on 2.4G and Bluetooth; the wireless dongle just
+  doesn't pass the app's commands through.
+- **Music mode follows the Spotify desktop app on this PC.** Spotify playing on your phone or another computer doesn't
+  count (or turn off "Only when Spotify is playing" to react to any sound).
+- **Reactions only see apps that start after V83P Studio.** Apps that were already open count once you reopen them.
+- **Close VIA while V83P Studio is running.** Both talk to the keyboard over the same channel.
+- **Tested on one keyboard.** Reports from other units, especially Mint, are very welcome.
 
-### Adding a keyboard (for contributors)
-Everything board-specific lives in one folder, `mykeys/boards/<board>/`:
-- `board.json`: name, USB IDs, layers, RGB effects, music zones, firmware file
-- `layout.json`: key and LED positions (generate with `tools/gen_layout.py` from the board's QMK definition)
-- `colorways.json`: keycap colors for the on-screen keyboard
+## FAQ
+**Can this brick my keyboard?** The flash mode is built into the keyboard's chip and can't be overwritten, so a failed
+flash can always be retried: hold **Esc** while plugging in, then run the wizard again.
 
-That's enough for effects, keymap, macros and knob on a QMK/VIA board. Per-key colors and music mode also need a
-firmware port with the per-key module (`mykeys.c` / `mykeys.h`). Close relatives of this board (same maker, same
-WB32 chip) such as HFD's M90 and RKB68 are the easiest candidates.
+**How do I go back to the original firmware?** Device → Firmware → **Restore a backup…** and pick the backup the wizard
+made (`original_<date>.bin`).
 
-## The app
-Closing the window keeps it in the tray. Use the tray menu to switch profiles, toggle music mode, pause, start with
-Windows, or quit. Pages: Lighting, Keys, Macros, Knob, Music, Reactions, Profiles and Device; each has a **?** with
-how-to help. Editing needs the cable with the switch on **wired**. Everything you save works on 2.4G and Bluetooth too.
+**Does it send anything online?** No. The app talks only to your keyboard and runs a local service on `127.0.0.1`,
+protected by a random token. Nothing is uploaded.
 
-## Building from source
+**Does my lighting work without the app running?** Yes, once you click **Save to keyboard**. Only music mode, reactions
+and automatic profiles need the app (it can stay in the tray, and start with Windows).
+
+**I found a bug.** Please [open an issue](../../issues/new/choose) and attach `%APPDATA%\V83P Studio\backend.log`.
+
+## For developers
+<details>
+<summary>Building, the command line, and adding a keyboard</summary>
+
+### Building from source
 - Run it: `pip install -r requirements.txt`, then `cd electron && npm install && npm start` (uses the project folder
   for data).
 - Installer: `pip install pyinstaller`, then `cd electron && npm run dist`. This freezes the Python backend into
   `dist/backend` (`tools/build_backend.py`) and builds `dist/installer/V83P-Studio-Setup-<version>.exe`.
-- Bundled third-party tools are listed in `vendor/README.md`.
+- Firmware: see [`firmware/source/README.md`](firmware/source/README.md).
+- Bundled third-party tools are listed in [`vendor/README.md`](vendor/README.md).
 
-## Command line (from source)
-Lighting control for the **Inland MK PRO V2** (QMK `inland/v83p`, USB `FFFE:001B`), without VIA.
-It talks to the keyboard over VIA raw HID. Close VIA while this runs.
+### Command line
+The `mykeys` Python package (the app's backend) also works on its own. It talks to the keyboard over VIA raw HID.
 
 ```
 pip install -r requirements.txt
@@ -57,33 +104,36 @@ python -m mykeys info                      # current lighting
 python -m mykeys set --effect solid_color --color "#ff0000" --brightness 200
 python -m mykeys set --effect cycle_spiral --speed 200 --save   # --save writes to the keyboard
 python -m mykeys effects --cycle           # step through effects to confirm their names
-python -m mykeys play pulse '{"color": "#0080ff", "period": 1.5}' --seconds 5
-python -m mykeys run -v                    # reactive service (Ctrl+C restores lighting)
-python -m mykeys tray                      # same, with a tray icon
+python -m mykeys keys W,A,S,D=#ff0000 ESC=#00ff00 --on           # per-key (V83P Studio firmware)
+python -m mykeys flash                     # flash the bundled firmware, keeping settings
 ```
 
-Live changes stay in RAM; only `--save` persists them. Lighting returns to its saved state after a replug.
+Live changes stay in RAM; only `--save` persists them.
 
-## Reactive rules: `config/rules.json`
-- `base`: the lighting while nothing is triggered.
-- `app_launch`: a matching process starts → animation plays until it shows a window
-  (or `timeout`), then the optional `on_ready` animation plays.
-- `foreground`: the animation plays while a matching app is focused.
-
-Animation types: `static`, `firmware` (built-in effect + speed/color), `pulse`, `flash`,
-`hue_sweep`, `fade`. Higher `priority` wins when several are active.
-
-## Layout
+### Code layout
 - `mykeys/device.py`: HID transport (destructive VIA commands are blocked)
-- `mykeys/via.py`: rgb_matrix get/set/save (VIA channel 3)
-- `mykeys/animations.py`, `mykeys/engine.py`: animation engine
-- `mykeys/triggers.py`: app-launch and foreground triggers
-- `tools/probe.py`: read-only firmware probe. See `docs/findings.md`.
+- `mykeys/via.py`, `mykeys/perkey.py`: effect lighting (VIA channel 3) and per-key lighting (firmware protocol)
+- `mykeys/engine.py`, `mykeys/animations.py`, `mykeys/triggers.py`: reactions
+- `mykeys/music/`: audio capture, analysis, Spotify detection and the visualizer styles
+- `mykeys/flasher.py`: the firmware wizard
+- `mykeys/studio/`: the app's local server and web UI; `electron/`: the desktop shell
+- `docs/findings.md`: how the keyboard and its stock firmware were analyzed
 
-## Per-key RGB
-The stock firmware has no per-key command, so it needs a custom QMK build. See `docs/findings.md`.
+### Adding a keyboard
+Everything board-specific lives in one folder, `mykeys/boards/<board>/`:
+- `board.json`: name, USB IDs, layers, RGB effects, music zones, firmware file
+- `layout.json`: key and LED positions (generate with `tools/gen_layout.py` from the board's QMK definition)
+- `colorways.json`: keycap colors for the on-screen keyboard
+
+That's enough for effects, keymap, macros and knob on a QMK/VIA board. Per-key colors and music mode also need a
+firmware port with the per-key module (`mykeys.c` / `mykeys.h`). Close relatives of this board (same maker, same WB32
+chip) such as HFD's M90 and RKB68 are the easiest candidates.
+</details>
 
 ## License
-V83P Studio is free software under the **GNU General Public License v3.0 or later** (`LICENSE`). The keyboard firmware
-is **GPL-2.0-or-later** like QMK, with its source in `firmware/source/`. Bundled third-party tools and libraries keep
-their own licenses: see `THIRD_PARTY_NOTICES.md` and `licenses/`.
+V83P Studio is free software under the **GNU General Public License v3.0 or later** ([`LICENSE`](LICENSE)). The keyboard
+firmware is **GPL-2.0-or-later** like QMK, with its source in [`firmware/source/`](firmware/source/). Bundled third-party
+tools and libraries keep their own licenses: see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and
+[`licenses/`](licenses/).
+
+Not affiliated with Inland or Micro Center.
