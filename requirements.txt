@@ -1,0 +1,11 @@
+hidapi>=0.14
+psutil>=5.9
+pystray>=0.19
+pillow>=10
+numpy>=2.0
+SoundCard>=0.4.3
+winrt-runtime>=3.0
+winrt-Windows.Foundation>=3.0
+winrt-Windows.Foundation.Collections>=3.0
+winrt-Windows.Media.Control>=3.0
+winrt-Windows.Storage.Streams>=3.0

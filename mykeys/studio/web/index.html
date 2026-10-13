@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>V83P Studio</title>
+<link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="app.css">
+<script>window.MYKEYS_TOKEN = "__TOKEN__";</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-light" viewBox="0 0 24 24"><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/><circle cx="12" cy="12" r="4"/></symbol>
+    <symbol id="i-keys" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M6.5 10h1M10.5 10h1M14.5 10h1M8 14h8"/></symbol>
+    <symbol id="i-macro" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-knob" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 12V5.5"/><path d="M5 19.5l1.2-1.2M19 19.5l-1.2-1.2"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2.5 5 13.5h6l-1 8 8-11h-6z"/></symbol>
+    <symbol id="i-stack" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2.5v3M15 2.5v3M9 18.5v3M15 18.5v3M2.5 9h3M2.5 15h3M18.5 9h3M18.5 15h3"/></symbol>
+  </defs>
+</svg>
+<div class="titlebar"></div>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <img src="icon.svg" alt="" class="brand-icon">
+      <div>
+        <div class="brand-name">V83P <span>Studio</span></div>
+        <div class="brand-sub mono">MK PRO V2 · 75%</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="nav-label mono">Customize</div>
+      <button data-page="lighting" class="active"><svg><use href="#i-light"/></svg>Lighting</button>
+      <button data-page="keys"><svg><use href="#i-keys"/></svg>Keys</button>
+      <button data-page="macros"><svg><use href="#i-macro"/></svg>Macros</button>
+      <button data-page="knob"><svg><use href="#i-knob"/></svg>Knob</button>
+      <div class="nav-label mono">Automate</div>
+      <button data-page="music"><svg><use href="#i-music"/></svg>Music<span class="nav-live" id="nav-music-live"></span></button>
+      <button data-page="reactions"><svg><use href="#i-bolt"/></svg>Reactions</button>
+      <button data-page="profiles"><svg><use href="#i-stack"/></svg>Profiles</button>
+      <div class="nav-label mono">System</div>
+      <button data-page="device"><svg><use href="#i-chip"/></svg>Device</button>
+    </nav>
+    <div class="device-chip">
+      <div id="status" class="status status-disconnected">
+        <span class="dot"></span><span class="status-text">Looking for keyboard…</span>
+      </div>
+      <div class="sidebar-foot mono" id="fw-label"></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div id="banner" class="banner hidden"></div>
+
+    <!-- LIGHTING -->
+    <section class="page" id="page-lighting">
+      <header class="page-head">
+        <div><div class="eyebrow mono">01 — Lighting</div><h1>Lighting</h1>
+          <p class="sub">Select keys (or nothing for the whole keyboard), then choose what they do: a static color, the animation, or off.</p></div>
+        <div class="head-actions">
+          <div class="menu-wrap needs-cable">
+            <button class="btn ghost" id="lt-reset">Reset<span class="caret">▾</span></button>
+            <div class="menu hidden" id="lt-reset-menu">
+              <button data-reset="selected">Set selected keys back to animated</button>
+              <button data-reset="all">Set all keys back to animated</button>
+            </div>
+          </div>
+          <button class="btn primary needs-cable" id="lt-save" title="Keeps this lighting after unplugging and on 2.4G / Bluetooth">
+            <span class="unsaved-dot"></span>Save to keyboard</button>
+        </div>
+      </header>
+
+      <div class="fw-gate"><div><b>Per-key colors need the V83P Studio firmware.</b><span>Your keyboard has its original firmware, so for now you can set the whole keyboard's animation, color or off. Installing takes about a minute.</span></div>
+        <button class="btn primary small" data-goto-fw>Install firmware</button></div>
+      <div class="stage">
+        <div class="stage-bar">
+          <div class="quick needs-cable needs-fw"><span class="label mono">Select</span>
+            <button data-q="all">All</button><button data-q="wasd">WASD</button><button data-q="arrows">Arrows</button>
+            <button data-q="frow">F-row</button><button data-q="numbers">Numbers</button><button data-q="letters">Letters</button>
+            <button data-q="mods">Modifiers</button><button data-q="edge">Underglow</button><button data-q="none">None</button>
+          </div>
+          <label class="inline-slider needs-cable" title="Overall brightness of everything on the keyboard">
+            <span class="label mono">Brightness</span>
+            <input type="range" id="lt-bright" min="0" max="255"><b id="lt-bv" class="mono"></b>
+          </label>
+        </div>
+        <div class="kb-wrap no-click-offline" id="lt-kb"></div>
+        <div class="stage-foot">
+          <span class="muted sel-help">Click keys to select · Shift / Ctrl to add · drag to box-select · Esc or click empty space to clear</span>
+          <div class="preview-caps" title="Only changes how the keyboard is drawn in this app">
+            <span class="label mono">Preview keycaps</span>
+            <div class="seg small" id="cap-theme"><button data-theme="matcha">Matcha</button><button data-theme="graphite">Graphite</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card keys-panel needs-cable" id="lt-panel">
+        <div class="kp-head">
+          <div>
+            <h2 id="lt-target">Whole keyboard</h2>
+            <p class="hint" id="lt-summary"></p>
+          </div>
+          <div class="style-pick" id="lt-style">
+            <button data-style="static"><i class="sp sp-static"></i><b>Static</b><small>One color</small></button>
+            <button data-style="animated"><i class="sp sp-anim"></i><b>Animated</b><small>The animation</small></button>
+            <button data-style="off"><i class="sp sp-off"></i><b>Off</b><small>Dark</small></button>
+          </div>
+        </div>
+
+        <div class="kp-body" id="lt-detail">
+          <!-- color wheel: Static color, or the animation's color -->
+          <div class="kp-color" id="lt-color-block">
+            <div class="label mono" id="lt-color-label">Color</div>
+            <div class="wheel-wrap"><canvas id="lt-wheel" width="440" height="440"></canvas><div class="wheel-dot" id="lt-wheel-dot"></div>
+              <div class="wheel-off hidden" id="lt-wheel-off"></div></div>
+            <div class="preview" id="lt-preview"><input id="lt-hex" value="#ff0000" maxlength="7" spellcheck="false" class="mono"></div>
+            <div class="swatches" id="lt-swatches"></div>
+            <label class="field needs-fw" id="lt-kbright-field"><span class="field-top"><span>Key brightness</span><b id="lt-kbv" class="mono">100%</b></span>
+              <input type="range" id="lt-kbright" min="0" max="100" value="100"></label>
+          </div>
+          <!-- animation: gallery + options -->
+          <div class="kp-anim" id="lt-anim-block">
+            <div class="row between"><div class="label mono">Animation</div><span class="hint" style="margin:0">All animated keys share one animation.</span></div>
+            <div class="effects-groups" id="lt-effects"></div>
+            <p class="hint reactive-note hidden" id="lt-reactive-note">This animation lights keys up as you type, so the preview stays dark until you press keys.</p>
+            <label class="field" id="lt-speed-field"><span class="field-top"><span>Speed</span><b id="lt-sv" class="mono"></b></span><input type="range" id="lt-speed" min="0" max="255"></label>
+          </div>
+          <div class="kp-note" id="lt-note"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEYS -->
+    <section class="page hidden" id="page-keys">
+      <header class="page-head">
+        <div><div class="eyebrow mono">02 — Keys</div><h1>Keys</h1>
+          <p class="sub">Pick a layer, click a key, choose what it does. Changes are written to the keyboard instantly.</p></div>
+        <div class="head-actions"><button class="btn ghost needs-cable" id="km-reload">Reload from keyboard</button></div>
+      </header>
+      <div class="stage">
+        <div class="stage-bar"><div class="seg" id="km-layers"></div></div>
+        <div class="kb-wrap no-click-offline" id="km-kb"></div>
+      </div>
+      <div class="card picker needs-cable" id="km-picker">
+        <div class="picker-head">
+          <h2 id="km-title">Select a key above</h2>
+          <input id="km-search" placeholder="Search keys…" spellcheck="false">
+        </div>
+        <div class="mods-row" id="km-mods"></div>
+        <div class="groups" id="km-groups"></div>
+        <div class="kc-grid" id="km-grid"></div>
+      </div>
+    </section>
+
+    <!-- MACROS -->
+    <section class="page hidden" id="page-macros">
+      <header class="page-head">
+        <div><div class="eyebrow mono">03 — Macros</div><h1>Macros</h1>
+          <p class="sub">Sixteen slots stored on the keyboard. They work wired and wireless.</p></div>
+        <div class="head-actions">
+          <div class="meter"><div class="meter-bar" id="mc-meter"></div><span id="mc-meter-label" class="mono"></span></div>
+          <button class="btn primary needs-cable" id="mc-save">Save macros</button>
+        </div>
+      </header>
+      <div class="macro-layout">
+        <div class="card slot-list" id="mc-slots"></div>
+        <div class="card">
+          <div class="row between">
+            <input class="title-input" id="mc-name" placeholder="Untitled macro" spellcheck="false">
+            <div class="row gap">
+              <button class="btn rec" id="mc-record">Record</button>
+              <button class="btn ghost" id="mc-clear">Clear</button>
+            </div>
+          </div>
+          <p class="hint" id="mc-rec-hint">Record captures what you type in this window: presses, releases and pauses.</p>
+          <div class="steps" id="mc-steps"></div>
+          <div class="row gap wrap add-row">
+            <button class="btn small" data-add="text">+ Text</button>
+            <button class="btn small" data-add="tap">+ Key</button>
+            <button class="btn small" data-add="combo">+ Shortcut</button>
+            <button class="btn small" data-add="delay">+ Delay</button>
+          </div>
+          <div class="assign needs-cable">
+            <span class="label mono">Assign to</span>
+            <select id="mc-layer"></select>
+            <span class="muted">then click a key</span>
+          </div>
+          <div class="kb-wrap small needs-cable" id="mc-kb"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KNOB -->
+    <section class="page hidden" id="page-knob">
+      <header class="page-head"><div><div class="eyebrow mono">04 — Knob</div><h1>Knob</h1>
+        <p class="sub">What turning and pressing the knob does on each layer.</p></div></header>
+      <div class="knob-grid needs-cable" id="kn-grid"></div>
+    </section>
+
+    <!-- MUSIC -->
+    <section class="page hidden" id="page-music">
+      <header class="page-head">
+        <div><div class="eyebrow mono">05 — Music</div><h1>Music</h1>
+          <p class="sub">The keyboard dances to what Spotify is playing. Needs the cable (wired mode) while it runs.</p></div>
+        <div class="head-actions">
+          <span class="pill" id="mu-status"><i></i><span>Off</span></span>
+          <label class="switch big needs-fw" title="Music mode"><input type="checkbox" id="mu-enabled"><i></i></label>
+        </div>
+      </header>
+      <div class="stage">
+        <div class="stage-bar">
+          <div class="now-playing" id="mu-now"><div class="np-art"></div><div><div class="np-title">Nothing playing</div><div class="np-artist mono">Spotify</div></div></div>
+          <div class="eq mono" id="mu-eq"></div>
+        </div>
+        <div class="kb-wrap" id="mu-kb"></div>
+      </div>
+      <div class="fw-gate"><div><b>Music mode needs the V83P Studio firmware.</b><span>It lights each key separately, which the keyboard's original firmware can't do.</span></div>
+        <button class="btn primary small" data-goto-fw>Install firmware</button></div>
+      <div class="grid-2 needs-fw">
+        <div class="card">
+          <div class="card-head"><h2>Style</h2></div>
+          <div class="mu-styles" id="mu-styles"></div>
+          <div class="card-head" style="margin:22px 0 12px"><h2>Palette</h2></div>
+          <div class="mu-palettes" id="mu-palettes"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Tuning</h2></div>
+          <div class="sliders" style="margin-top:0;padding-top:0;border-top:0">
+            <label class="field"><span class="field-top"><span>Sensitivity</span><b class="mono" id="mu-sens-v"></b></span><input type="range" id="mu-sens" min="50" max="200"></label>
+            <label class="field"><span class="field-top"><span>Smoothing</span><b class="mono" id="mu-smooth-v"></b></span><input type="range" id="mu-smooth" min="30" max="95"></label>
+            <label class="field"><span class="field-top"><span>Dynamics</span><b class="mono" id="mu-dyn-v"></b></span><input type="range" id="mu-dyn" min="0" max="100"></label>
+            <p class="hint" style="margin:-6px 0 4px">Low: every song fills the board. High: quiet parts stay dim and drops hit harder.</p>
+            <label class="field"><span class="field-top"><span>Brightness</span><b class="mono" id="mu-bright-v"></b></span><input type="range" id="mu-bright" min="10" max="100"></label>
+          </div>
+          <div class="setting" style="margin-top:16px"><div>Underglow VU meter<small>Side light strips show left / right volume.</small></div>
+            <label class="switch"><input type="checkbox" id="mu-vu"><i></i></label></div>
+          <div class="setting"><div>Only when Spotify is playing<small>Off = react to any sound on this PC.</small></div>
+            <label class="switch"><input type="checkbox" id="mu-only"><i></i></label></div>
+          <p class="hint" id="mu-device" style="margin-top:14px"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- REACTIONS -->
+    <section class="page hidden" id="page-reactions">
+      <header class="page-head">
+        <div><div class="eyebrow mono">06 — Reactions</div><h1>Reactions</h1>
+          <p class="sub">Light up the keyboard when things happen on your PC. Runs while the cable is connected.</p></div>
+        <div class="head-actions"><button class="btn" id="rx-add">New reaction</button><button class="btn primary" id="rx-save">Save</button></div>
+      </header>
+      <p class="hint">Between reactions the keyboard shows whatever you set on the Lighting page.</p>
+      <div id="rx-list"></div>
+    </section>
+
+    <!-- PROFILES -->
+    <section class="page hidden" id="page-profiles">
+      <header class="page-head">
+        <div><div class="eyebrow mono">07 — Profiles</div><h1>Profiles</h1>
+          <p class="sub">Snapshots of everything: lighting, key colors, keymap, knob and macros.</p></div>
+        <div class="head-actions"><input id="pf-name" placeholder="Profile name"><button class="btn primary needs-cable" id="pf-save">Save current</button></div>
+      </header>
+      <div class="profile-grid" id="pf-list"></div>
+      <div class="card">
+        <div class="card-head">
+          <div><h2>Automatic switching</h2>
+            <p class="hint">Change lighting when an app is focused. Only lighting and key colors switch — instantly, without writing to the keyboard's memory.</p></div>
+          <label class="switch"><input type="checkbox" id="ap-enabled"><i></i></label>
+        </div>
+        <div class="auto-rule"><span class="label mono">Otherwise</span><select id="ap-default"></select></div>
+        <div id="ap-rules"></div>
+        <div class="row gap" style="margin-top:14px">
+          <button class="btn" id="ap-add">Add app rule</button>
+          <button class="btn primary" id="ap-save">Save</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEVICE -->
+    <section class="page hidden" id="page-device">
+      <header class="page-head"><div><div class="eyebrow mono">08 — Device</div><h1>Device</h1>
+        <p class="sub">Connection, firmware and app settings.</p></div></header>
+      <div class="grid-2">
+        <div class="col">
+          <div class="card" id="dv-info"></div>
+          <div class="card" id="dv-fw"></div>
+          <div class="card">
+            <div class="card-head"><h2>Look</h2></div>
+            <div class="setting"><div>Keyboard colorway<small>Which version you have. Sets how your keyboard is drawn and the app's accent color.</small></div>
+              <select id="dv-colorway"></select></div>
+            <div class="setting" style="margin-top:12px"><div>Appearance<small>Dark, light, or follow Windows.</small></div>
+              <div class="seg appearance-seg" id="dv-appearance"><button data-mode="dark">Dark</button><button data-mode="light">Light</button><button data-mode="system">System</button></div></div>
+          </div>
+          <div class="card hidden" id="dv-app">
+            <div class="card-head"><h2>App</h2></div>
+            <div class="setting"><div>Start with Windows<small>Opens in the tray at sign-in, so reactions and auto profiles always run.</small></div>
+              <label class="switch"><input type="checkbox" id="dv-autostart"><i></i></label></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Good to know</h2></div>
+          <ul class="tips">
+            <li><b>Editing</b> needs the cable with the switch on <b>wired</b>. Saved settings work on 2.4G and Bluetooth.</li>
+            <li><b>Fn + 1 / 2 / 3</b> pick Bluetooth hosts (hold 3 s to pair), <b>Fn + 4</b> 2.4G, <b>Fn + 5</b> USB.</li>
+            <li><b>Fn + Esc</b> for 3 seconds resets all settings to default.</li>
+            <li><b>Firmware:</b> install, update or go back to the original from the Firmware card. Updates keep your settings.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="modal" class="modal hidden"><div class="modal-card" id="modal-card"></div></div>
+<div id="toasts" class="toasts"></div>
+<script src="help.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

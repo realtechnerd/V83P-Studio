@@ -1,0 +1,63 @@
+{
+  "name": "v83p-studio",
+  "productName": "V83P Studio",
+  "version": "1.0.0",
+  "description": "Lighting, keys, macros and more for the Inland MK PRO V2",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "backend": "python ../tools/build_backend.py",
+    "dist": "npm run backend && electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/geist-mono": "^5.3.0",
+    "electron": "44.4.5",
+    "electron-builder": "26.16.1"
+  },
+  "build": {
+    "appId": "com.v83p.studio",
+    "productName": "V83P Studio",
+    "artifactName": "V83P-Studio-Setup-${version}.${ext}",
+    "directories": {
+      "output": "../dist/installer"
+    },
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "V83P Studio",
+      "license": "../LICENSE"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "assets/**"
+    ],
+    "extraResources": [
+      {
+        "from": "../dist/backend",
+        "to": "backend"
+      },
+      {
+        "from": "../licenses",
+        "to": "licenses"
+      },
+      {
+        "from": "../LICENSE",
+        "to": "LICENSE.txt"
+      },
+      {
+        "from": "../THIRD_PARTY_NOTICES.md",
+        "to": "THIRD_PARTY_NOTICES.md"
+      }
+    ]
+  },
+  "license": "GPL-3.0-or-later"
+}

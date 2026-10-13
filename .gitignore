@@ -1,0 +1,16 @@
+# Personal data: never publish
+backup/
+config/
+profiles/
+probe_log.txt
+*.lnk
+
+# Builds
+dist/
+build/
+electron/node_modules/
+__pycache__/
+*.pyc
+
+# Not ours: Inland / Micro Center VIA definition (reference only)
+docs/via.json

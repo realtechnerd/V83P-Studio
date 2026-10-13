@@ -1,0 +1,227 @@
+{
+  "_comment": "Keycap colorways for the on-screen keyboard. 'roles' says which keys use the 'mod' and 'accent' keycap colors; every other key uses the base 'cap' colors. 'opaque_legends': light keycaps whose legends don't glow with the LEDs. 'accent' = the app's highlight color for this colorway, per appearance (dark / light).",
+  "matcha": {
+    "name": "Matcha",
+    "description": "White keys, black modifiers, lime accents",
+    "selectable": true,
+    "opaque_legends": true,
+    "roles": {
+      "mod": [
+        "F5",
+        "F6",
+        "F7",
+        "F8",
+        "DEL",
+        "TAB",
+        "CAPS",
+        "LSHIFT",
+        "RSHIFT",
+        "LCTRL",
+        "WIN",
+        "LALT",
+        "RALT",
+        "FN",
+        "RCTRL",
+        "HOME",
+        "END",
+        "PAGEUP",
+        "PAGEDOWN"
+      ],
+      "accent": [
+        "ESC",
+        "BACKSPACE",
+        "ENTER",
+        "SPACE",
+        "UP",
+        "DOWN",
+        "LEFT",
+        "RIGHT"
+      ]
+    },
+    "vars": {
+      "case-a": "#2c2d31",
+      "case-b": "#18191b",
+      "case-hi": "rgba(255,255,255,.1)",
+      "case-ink": "#8d8f95",
+      "plate": "#0a0a0b",
+      "cap-top-a": "#f6f7f5",
+      "cap-top-b": "#e3e5e2",
+      "cap-side-a": "#d0d3cf",
+      "cap-side-b": "#a9aca8",
+      "cap-hi": "rgba(255,255,255,.9)",
+      "legend": "#43464c",
+      "mod-top-a": "#2b2c30",
+      "mod-top-b": "#1d1e21",
+      "mod-side-a": "#17181a",
+      "mod-side-b": "#0d0d0e",
+      "mod-legend": "#c5d84f",
+      "acc-top-a": "#b0dc45",
+      "acc-top-b": "#96c133",
+      "acc-side-a": "#84ab2b",
+      "acc-side-b": "#668720",
+      "acc-legend": "#22300f"
+    },
+    "accent": {
+      "dark": {
+        "accent": "#b9e48f",
+        "accent-ink": "#10180a",
+        "accent-soft": "rgba(185,228,143,.12)",
+        "accent-line": "rgba(185,228,143,.45)"
+      },
+      "light": {
+        "accent": "#5e9a1c",
+        "accent-ink": "#ffffff",
+        "accent-soft": "rgba(94,154,28,.10)",
+        "accent-line": "rgba(94,154,28,.45)"
+      }
+    }
+  },
+  "mint": {
+    "name": "Mint",
+    "description": "White keys with mint modifiers and accents",
+    "selectable": true,
+    "opaque_legends": true,
+    "roles": {
+      "mod": [
+        "F5",
+        "F6",
+        "F7",
+        "F8",
+        "DEL",
+        "TAB",
+        "CAPS",
+        "LSHIFT",
+        "RSHIFT",
+        "LCTRL",
+        "WIN",
+        "LALT",
+        "RALT",
+        "FN",
+        "RCTRL",
+        "HOME",
+        "END",
+        "PAGEUP",
+        "PAGEDOWN"
+      ],
+      "accent": [
+        "ESC",
+        "BACKSPACE",
+        "ENTER",
+        "UP",
+        "DOWN",
+        "LEFT",
+        "RIGHT"
+      ]
+    },
+    "vars": {
+      "case-a": "#2c2d31",
+      "case-b": "#18191b",
+      "case-hi": "rgba(255,255,255,.1)",
+      "case-ink": "#8d8f95",
+      "plate": "#0a0a0b",
+      "cap-top-a": "#f7f8f8",
+      "cap-top-b": "#e4e7e7",
+      "cap-side-a": "#d0d5d5",
+      "cap-side-b": "#a8afaf",
+      "cap-hi": "rgba(255,255,255,.9)",
+      "legend": "#3aa9ae",
+      "mod-top-a": "#93e2e5",
+      "mod-top-b": "#72d0d4",
+      "mod-side-a": "#5dbcc0",
+      "mod-side-b": "#449ca0",
+      "mod-legend": "#ffffff",
+      "acc-top-a": "#93e2e5",
+      "acc-top-b": "#72d0d4",
+      "acc-side-a": "#5dbcc0",
+      "acc-side-b": "#449ca0",
+      "acc-legend": "#ffffff"
+    },
+    "accent": {
+      "dark": {
+        "accent": "#7fd9dc",
+        "accent-ink": "#062224",
+        "accent-soft": "rgba(127,217,220,.12)",
+        "accent-line": "rgba(127,217,220,.45)"
+      },
+      "light": {
+        "accent": "#1f8f94",
+        "accent-ink": "#ffffff",
+        "accent-soft": "rgba(31,143,148,.10)",
+        "accent-line": "rgba(31,143,148,.45)"
+      }
+    }
+  },
+  "graphite": {
+    "name": "Graphite",
+    "description": "All-dark keycaps (neutral preview)",
+    "selectable": false,
+    "opaque_legends": false,
+    "roles": {
+      "mod": [
+        "ESC",
+        "TAB",
+        "CAPS",
+        "LSHIFT",
+        "RSHIFT",
+        "LCTRL",
+        "RCTRL",
+        "LALT",
+        "RALT",
+        "WIN",
+        "FN",
+        "BACKSPACE",
+        "DEL",
+        "HOME",
+        "END",
+        "PAGEUP",
+        "PAGEDOWN",
+        "UP",
+        "DOWN",
+        "LEFT",
+        "RIGHT",
+        "GRAVE"
+      ],
+      "accent": [
+        "ESC",
+        "ENTER"
+      ]
+    },
+    "vars": {
+      "case-a": "#2b2d32",
+      "case-b": "#1b1c20",
+      "case-hi": "rgba(255,255,255,.09)",
+      "case-ink": "#9a9ca3",
+      "plate": "#0c0c0e",
+      "cap-top-a": "#2a2c31",
+      "cap-top-b": "#1f2125",
+      "cap-side-a": "#1a1b1f",
+      "cap-side-b": "#111215",
+      "cap-hi": "rgba(255,255,255,.07)",
+      "legend": "#b9bbc2",
+      "mod-top-a": "#212226",
+      "mod-top-b": "#18191c",
+      "mod-side-a": "#141518",
+      "mod-side-b": "#0c0d0f",
+      "mod-legend": "#8e9098",
+      "acc-top-a": "#3b4a30",
+      "acc-top-b": "#2f3b26",
+      "acc-side-a": "#26301f",
+      "acc-side-b": "#1b2216",
+      "acc-legend": "#cfe6b5"
+    },
+    "accent": {
+      "dark": {
+        "accent": "#b9e48f",
+        "accent-ink": "#10180a",
+        "accent-soft": "rgba(185,228,143,.12)",
+        "accent-line": "rgba(185,228,143,.45)"
+      },
+      "light": {
+        "accent": "#5e9a1c",
+        "accent-ink": "#ffffff",
+        "accent-soft": "rgba(94,154,28,.10)",
+        "accent-line": "rgba(94,154,28,.45)"
+      }
+    }
+  }
+}

@@ -1,0 +1,2 @@
+# V83P Studio: only the WB32 bootloader (the keyboard in flash mode)
+winusb,WB32 Bootloader,342D,DFA0,89b0fdf0-3d22-4408-8393-32147ba508ce

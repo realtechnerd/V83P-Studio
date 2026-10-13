@@ -1,0 +1,29 @@
+{
+  "id": "inland-mk-pro-v2",
+  "name": "Inland MK PRO V2",
+  "short": "MK PRO V2 · 75%",
+  "qmk": "inland/v83p",
+  "usb": { "vid": "0xFFFE", "pid": "0x001B" },
+  "dongle": { "vid": "0x05AC", "pid": "0x024F" },
+  "layers": ["Windows", "Windows Fn", "Mac", "Mac Fn"],
+  "encoder": true,
+  "rgb": {
+    "channel": 3,
+    "max_brightness": 180,
+    "effects": {
+      "0": "off", "1": "solid_color", "2": "breathing", "3": "cycle_all", "4": "cycle_left_right",
+      "5": "cycle_up_down", "6": "rainbow_moving_chevron", "7": "cycle_out_in", "8": "cycle_out_in_dual",
+      "9": "cycle_pinwheel", "10": "cycle_spiral", "11": "dual_beacon", "12": "rainbow_beacon", "13": "raindrops",
+      "14": "typing_heatmap", "15": "solid_reactive_simple", "16": "solid_reactive", "17": "solid_reactive_nexus",
+      "18": "multisplash"
+    }
+  },
+  "zones": {
+    "_comment": "Physical keycap groups for the music 'Keycap zones' style: bass / (everything else = mids) / highs",
+    "bass": ["F5", "F6", "F7", "F8", "DEL", "TAB", "CAPS", "LSHIFT", "RSHIFT", "LCTRL", "WIN", "LALT", "RALT", "FN",
+             "RCTRL", "HOME", "END", "PAGEUP", "PAGEDOWN"],
+    "highs": ["ESC", "BACKSPACE", "ENTER", "SPACE", "UP", "DOWN", "LEFT", "RIGHT"]
+  },
+  "firmware": { "file": "mykeys_v83p_v2.2.0.bin", "version": "2.2.0", "release": "0220", "min_protocol": 3 },
+  "default_colorway": "matcha"
+}

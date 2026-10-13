@@ -1,0 +1,1750 @@
+[
+{
+"value": 0,
+"name": "KC_NO",
+"label": "None",
+"group": "Basic",
+"desc": "Does nothing"
+},
+{
+"value": 1,
+"name": "_______",
+"label": "▽",
+"group": "Basic",
+"desc": "Use the key from the layer below"
+},
+{
+"value": 4,
+"name": "KC_A",
+"label": "A",
+"group": "Letters"
+},
+{
+"value": 5,
+"name": "KC_B",
+"label": "B",
+"group": "Letters"
+},
+{
+"value": 6,
+"name": "KC_C",
+"label": "C",
+"group": "Letters"
+},
+{
+"value": 7,
+"name": "KC_D",
+"label": "D",
+"group": "Letters"
+},
+{
+"value": 8,
+"name": "KC_E",
+"label": "E",
+"group": "Letters"
+},
+{
+"value": 9,
+"name": "KC_F",
+"label": "F",
+"group": "Letters"
+},
+{
+"value": 10,
+"name": "KC_G",
+"label": "G",
+"group": "Letters"
+},
+{
+"value": 11,
+"name": "KC_H",
+"label": "H",
+"group": "Letters"
+},
+{
+"value": 12,
+"name": "KC_I",
+"label": "I",
+"group": "Letters"
+},
+{
+"value": 13,
+"name": "KC_J",
+"label": "J",
+"group": "Letters"
+},
+{
+"value": 14,
+"name": "KC_K",
+"label": "K",
+"group": "Letters"
+},
+{
+"value": 15,
+"name": "KC_L",
+"label": "L",
+"group": "Letters"
+},
+{
+"value": 16,
+"name": "KC_M",
+"label": "M",
+"group": "Letters"
+},
+{
+"value": 17,
+"name": "KC_N",
+"label": "N",
+"group": "Letters"
+},
+{
+"value": 18,
+"name": "KC_O",
+"label": "O",
+"group": "Letters"
+},
+{
+"value": 19,
+"name": "KC_P",
+"label": "P",
+"group": "Letters"
+},
+{
+"value": 20,
+"name": "KC_Q",
+"label": "Q",
+"group": "Letters"
+},
+{
+"value": 21,
+"name": "KC_R",
+"label": "R",
+"group": "Letters"
+},
+{
+"value": 22,
+"name": "KC_S",
+"label": "S",
+"group": "Letters"
+},
+{
+"value": 23,
+"name": "KC_T",
+"label": "T",
+"group": "Letters"
+},
+{
+"value": 24,
+"name": "KC_U",
+"label": "U",
+"group": "Letters"
+},
+{
+"value": 25,
+"name": "KC_V",
+"label": "V",
+"group": "Letters"
+},
+{
+"value": 26,
+"name": "KC_W",
+"label": "W",
+"group": "Letters"
+},
+{
+"value": 27,
+"name": "KC_X",
+"label": "X",
+"group": "Letters"
+},
+{
+"value": 28,
+"name": "KC_Y",
+"label": "Y",
+"group": "Letters"
+},
+{
+"value": 29,
+"name": "KC_Z",
+"label": "Z",
+"group": "Letters"
+},
+{
+"value": 30,
+"name": "KC_1",
+"label": "1",
+"group": "Numbers"
+},
+{
+"value": 31,
+"name": "KC_2",
+"label": "2",
+"group": "Numbers"
+},
+{
+"value": 32,
+"name": "KC_3",
+"label": "3",
+"group": "Numbers"
+},
+{
+"value": 33,
+"name": "KC_4",
+"label": "4",
+"group": "Numbers"
+},
+{
+"value": 34,
+"name": "KC_5",
+"label": "5",
+"group": "Numbers"
+},
+{
+"value": 35,
+"name": "KC_6",
+"label": "6",
+"group": "Numbers"
+},
+{
+"value": 36,
+"name": "KC_7",
+"label": "7",
+"group": "Numbers"
+},
+{
+"value": 37,
+"name": "KC_8",
+"label": "8",
+"group": "Numbers"
+},
+{
+"value": 38,
+"name": "KC_9",
+"label": "9",
+"group": "Numbers"
+},
+{
+"value": 39,
+"name": "KC_0",
+"label": "0",
+"group": "Numbers"
+},
+{
+"value": 40,
+"name": "KC_ENT",
+"label": "Enter",
+"group": "Editing"
+},
+{
+"value": 41,
+"name": "KC_ESC",
+"label": "Esc",
+"group": "Editing"
+},
+{
+"value": 42,
+"name": "KC_BSPC",
+"label": "Backspace",
+"group": "Editing"
+},
+{
+"value": 43,
+"name": "KC_TAB",
+"label": "Tab",
+"group": "Editing"
+},
+{
+"value": 44,
+"name": "KC_SPC",
+"label": "Spacebar",
+"group": "Editing"
+},
+{
+"value": 45,
+"name": "KC_MINS",
+"label": "-",
+"group": "Symbols"
+},
+{
+"value": 46,
+"name": "KC_EQL",
+"label": "=",
+"group": "Symbols"
+},
+{
+"value": 47,
+"name": "KC_LBRC",
+"label": "[",
+"group": "Symbols"
+},
+{
+"value": 48,
+"name": "KC_RBRC",
+"label": "]",
+"group": "Symbols"
+},
+{
+"value": 49,
+"name": "KC_BSLS",
+"label": "\\",
+"group": "Symbols"
+},
+{
+"value": 50,
+"name": "KC_NUHS",
+"label": "#",
+"group": "Symbols"
+},
+{
+"value": 51,
+"name": "KC_SCLN",
+"label": ";",
+"group": "Symbols"
+},
+{
+"value": 52,
+"name": "KC_QUOT",
+"label": "'",
+"group": "Symbols"
+},
+{
+"value": 53,
+"name": "KC_GRV",
+"label": "`",
+"group": "Symbols"
+},
+{
+"value": 54,
+"name": "KC_COMM",
+"label": ",",
+"group": "Symbols"
+},
+{
+"value": 55,
+"name": "KC_DOT",
+"label": ".",
+"group": "Symbols"
+},
+{
+"value": 56,
+"name": "KC_SLSH",
+"label": "/",
+"group": "Symbols"
+},
+{
+"value": 57,
+"name": "KC_CAPS",
+"label": "Caps Lock",
+"group": "Editing"
+},
+{
+"value": 58,
+"name": "KC_F1",
+"label": "F1",
+"group": "Function"
+},
+{
+"value": 59,
+"name": "KC_F2",
+"label": "F2",
+"group": "Function"
+},
+{
+"value": 60,
+"name": "KC_F3",
+"label": "F3",
+"group": "Function"
+},
+{
+"value": 61,
+"name": "KC_F4",
+"label": "F4",
+"group": "Function"
+},
+{
+"value": 62,
+"name": "KC_F5",
+"label": "F5",
+"group": "Function"
+},
+{
+"value": 63,
+"name": "KC_F6",
+"label": "F6",
+"group": "Function"
+},
+{
+"value": 64,
+"name": "KC_F7",
+"label": "F7",
+"group": "Function"
+},
+{
+"value": 65,
+"name": "KC_F8",
+"label": "F8",
+"group": "Function"
+},
+{
+"value": 66,
+"name": "KC_F9",
+"label": "F9",
+"group": "Function"
+},
+{
+"value": 67,
+"name": "KC_F10",
+"label": "F10",
+"group": "Function"
+},
+{
+"value": 68,
+"name": "KC_F11",
+"label": "F11",
+"group": "Function"
+},
+{
+"value": 69,
+"name": "KC_F12",
+"label": "F12",
+"group": "Function"
+},
+{
+"value": 70,
+"name": "KC_PSCR",
+"label": "Print Screen",
+"group": "Navigation"
+},
+{
+"value": 71,
+"name": "KC_SCRL",
+"label": "Scroll Lock",
+"group": "Navigation"
+},
+{
+"value": 72,
+"name": "KC_BRK",
+"label": "Pause",
+"group": "Navigation"
+},
+{
+"value": 73,
+"name": "KC_INS",
+"label": "Insert",
+"group": "Navigation"
+},
+{
+"value": 74,
+"name": "KC_HOME",
+"label": "Home",
+"group": "Navigation"
+},
+{
+"value": 75,
+"name": "KC_PGUP",
+"label": "Page Up",
+"group": "Navigation"
+},
+{
+"value": 76,
+"name": "KC_DEL",
+"label": "Delete",
+"group": "Navigation"
+},
+{
+"value": 77,
+"name": "KC_END",
+"label": "End",
+"group": "Navigation"
+},
+{
+"value": 78,
+"name": "KC_PGDN",
+"label": "Page Down",
+"group": "Navigation"
+},
+{
+"value": 79,
+"name": "KC_RGHT",
+"label": "Right",
+"group": "Navigation"
+},
+{
+"value": 80,
+"name": "KC_LEFT",
+"label": "Left",
+"group": "Navigation"
+},
+{
+"value": 81,
+"name": "KC_DOWN",
+"label": "Down",
+"group": "Navigation"
+},
+{
+"value": 82,
+"name": "KC_UP",
+"label": "Up",
+"group": "Navigation"
+},
+{
+"value": 83,
+"name": "KC_NUM",
+"label": "Num Lock",
+"group": "Numpad"
+},
+{
+"value": 84,
+"name": "KC_PSLS",
+"label": "/",
+"group": "Numpad"
+},
+{
+"value": 85,
+"name": "KC_PAST",
+"label": "*",
+"group": "Numpad"
+},
+{
+"value": 86,
+"name": "KC_PMNS",
+"label": "-",
+"group": "Numpad"
+},
+{
+"value": 87,
+"name": "KC_PPLS",
+"label": "+",
+"group": "Numpad"
+},
+{
+"value": 88,
+"name": "KC_PENT",
+"label": "Enter",
+"group": "Numpad"
+},
+{
+"value": 89,
+"name": "KC_P1",
+"label": "1",
+"group": "Numpad"
+},
+{
+"value": 90,
+"name": "KC_P2",
+"label": "2",
+"group": "Numpad"
+},
+{
+"value": 91,
+"name": "KC_P3",
+"label": "3",
+"group": "Numpad"
+},
+{
+"value": 92,
+"name": "KC_P4",
+"label": "4",
+"group": "Numpad"
+},
+{
+"value": 93,
+"name": "KC_P5",
+"label": "5",
+"group": "Numpad"
+},
+{
+"value": 94,
+"name": "KC_P6",
+"label": "6",
+"group": "Numpad"
+},
+{
+"value": 95,
+"name": "KC_P7",
+"label": "7",
+"group": "Numpad"
+},
+{
+"value": 96,
+"name": "KC_P8",
+"label": "8",
+"group": "Numpad"
+},
+{
+"value": 97,
+"name": "KC_P9",
+"label": "9",
+"group": "Numpad"
+},
+{
+"value": 98,
+"name": "KC_P0",
+"label": "0",
+"group": "Numpad"
+},
+{
+"value": 99,
+"name": "KC_PDOT",
+"label": ".",
+"group": "Numpad"
+},
+{
+"value": 100,
+"name": "KC_NUBS",
+"label": "\\",
+"group": "Numpad"
+},
+{
+"value": 101,
+"name": "KC_APP",
+"label": "App",
+"group": "Numpad"
+},
+{
+"value": 102,
+"name": "KC_KB_POWER",
+"label": "Power",
+"group": "Numpad"
+},
+{
+"value": 103,
+"name": "KC_PEQL",
+"label": "=",
+"group": "Numpad"
+},
+{
+"value": 104,
+"name": "KC_F13",
+"label": "F13",
+"group": "Function"
+},
+{
+"value": 105,
+"name": "KC_F14",
+"label": "F14",
+"group": "Function"
+},
+{
+"value": 106,
+"name": "KC_F15",
+"label": "F15",
+"group": "Function"
+},
+{
+"value": 107,
+"name": "KC_F16",
+"label": "F16",
+"group": "Function"
+},
+{
+"value": 108,
+"name": "KC_F17",
+"label": "F17",
+"group": "Function"
+},
+{
+"value": 109,
+"name": "KC_F18",
+"label": "F18",
+"group": "Function"
+},
+{
+"value": 110,
+"name": "KC_F19",
+"label": "F19",
+"group": "Function"
+},
+{
+"value": 111,
+"name": "KC_F20",
+"label": "F20",
+"group": "Function"
+},
+{
+"value": 112,
+"name": "KC_F21",
+"label": "F21",
+"group": "Function"
+},
+{
+"value": 113,
+"name": "KC_F22",
+"label": "F22",
+"group": "Function"
+},
+{
+"value": 114,
+"name": "KC_F23",
+"label": "F23",
+"group": "Function"
+},
+{
+"value": 115,
+"name": "KC_F24",
+"label": "F24",
+"group": "Function"
+},
+{
+"value": 116,
+"name": "KC_EXEC",
+"label": "Execute",
+"group": "Symbols"
+},
+{
+"value": 117,
+"name": "KC_HELP",
+"label": "Help",
+"group": "Symbols"
+},
+{
+"value": 118,
+"name": "KC_MENU",
+"label": "Menu",
+"group": "Symbols"
+},
+{
+"value": 119,
+"name": "KC_SLCT",
+"label": "Select",
+"group": "Symbols"
+},
+{
+"value": 120,
+"name": "KC_STOP",
+"label": "Stop",
+"group": "Symbols"
+},
+{
+"value": 121,
+"name": "KC_AGIN",
+"label": "Again",
+"group": "Symbols"
+},
+{
+"value": 122,
+"name": "KC_UNDO",
+"label": "Undo",
+"group": "Symbols"
+},
+{
+"value": 123,
+"name": "KC_CUT",
+"label": "Cut",
+"group": "Symbols"
+},
+{
+"value": 124,
+"name": "KC_COPY",
+"label": "Copy",
+"group": "Symbols"
+},
+{
+"value": 125,
+"name": "KC_PSTE",
+"label": "Paste",
+"group": "Symbols"
+},
+{
+"value": 126,
+"name": "KC_FIND",
+"label": "Find",
+"group": "Symbols"
+},
+{
+"value": 127,
+"name": "KC_KB_MUTE",
+"label": "Mute",
+"group": "Symbols"
+},
+{
+"value": 128,
+"name": "KC_KB_VOLUME_UP",
+"label": "Volume Up",
+"group": "Symbols"
+},
+{
+"value": 129,
+"name": "KC_KB_VOLUME_DOWN",
+"label": "Volume Down",
+"group": "Symbols"
+},
+{
+"value": 130,
+"name": "KC_LCAP",
+"label": "Caps Lock",
+"group": "Symbols"
+},
+{
+"value": 131,
+"name": "KC_LNUM",
+"label": "Num Lock",
+"group": "Symbols"
+},
+{
+"value": 132,
+"name": "KC_LSCR",
+"label": "Scroll Lock",
+"group": "Symbols"
+},
+{
+"value": 133,
+"name": "KC_PCMM",
+"label": ",",
+"group": "Symbols"
+},
+{
+"value": 134,
+"name": "KC_KP_EQUAL_AS400",
+"label": "=",
+"group": "Symbols"
+},
+{
+"value": 135,
+"name": "KC_INT1",
+"label": "INT 1",
+"group": "Symbols"
+},
+{
+"value": 136,
+"name": "KC_INT2",
+"label": "INT 2",
+"group": "Symbols"
+},
+{
+"value": 137,
+"name": "KC_INT3",
+"label": "INT 3",
+"group": "Symbols"
+},
+{
+"value": 138,
+"name": "KC_INT4",
+"label": "INT 4",
+"group": "Symbols"
+},
+{
+"value": 139,
+"name": "KC_INT5",
+"label": "INT 5",
+"group": "Symbols"
+},
+{
+"value": 140,
+"name": "KC_INT6",
+"label": "INT 6",
+"group": "Symbols"
+},
+{
+"value": 141,
+"name": "KC_INT7",
+"label": "INT 7",
+"group": "Symbols"
+},
+{
+"value": 142,
+"name": "KC_INT8",
+"label": "INT 8",
+"group": "Symbols"
+},
+{
+"value": 143,
+"name": "KC_INT9",
+"label": "INT 9",
+"group": "Symbols"
+},
+{
+"value": 144,
+"name": "KC_LNG1",
+"label": "LANG 1",
+"group": "Symbols"
+},
+{
+"value": 145,
+"name": "KC_LNG2",
+"label": "LANG 2",
+"group": "Symbols"
+},
+{
+"value": 146,
+"name": "KC_LNG3",
+"label": "LANG 3",
+"group": "Symbols"
+},
+{
+"value": 147,
+"name": "KC_LNG4",
+"label": "LANG 4",
+"group": "Symbols"
+},
+{
+"value": 148,
+"name": "KC_LNG5",
+"label": "LANG 5",
+"group": "Symbols"
+},
+{
+"value": 149,
+"name": "KC_LNG6",
+"label": "LANG 6",
+"group": "Symbols"
+},
+{
+"value": 150,
+"name": "KC_LNG7",
+"label": "LANG 7",
+"group": "Symbols"
+},
+{
+"value": 151,
+"name": "KC_LNG8",
+"label": "LANG 8",
+"group": "Symbols"
+},
+{
+"value": 152,
+"name": "KC_LNG9",
+"label": "LANG 9",
+"group": "Symbols"
+},
+{
+"value": 153,
+"name": "KC_ERAS",
+"label": "Alternate Erase",
+"group": "Symbols"
+},
+{
+"value": 154,
+"name": "KC_SYRQ",
+"label": "SysReq/Attention",
+"group": "Symbols"
+},
+{
+"value": 155,
+"name": "KC_CNCL",
+"label": "Cancel",
+"group": "Symbols"
+},
+{
+"value": 156,
+"name": "KC_CLR",
+"label": "Clear",
+"group": "Symbols"
+},
+{
+"value": 157,
+"name": "KC_PRIR",
+"label": "Prior",
+"group": "Symbols"
+},
+{
+"value": 158,
+"name": "KC_RETN",
+"label": "Return",
+"group": "Symbols"
+},
+{
+"value": 159,
+"name": "KC_SEPR",
+"label": "Separator",
+"group": "Symbols"
+},
+{
+"value": 160,
+"name": "KC_OUT",
+"label": "Out",
+"group": "Symbols"
+},
+{
+"value": 161,
+"name": "KC_OPER",
+"label": "Oper",
+"group": "Symbols"
+},
+{
+"value": 162,
+"name": "KC_CLAG",
+"label": "Clear/Again",
+"group": "Symbols"
+},
+{
+"value": 163,
+"name": "KC_CRSL",
+"label": "CrSel/Props",
+"group": "Symbols"
+},
+{
+"value": 164,
+"name": "KC_EXSL",
+"label": "ExSel",
+"group": "Symbols"
+},
+{
+"value": 165,
+"name": "KC_PWR",
+"label": "Power",
+"group": "Media"
+},
+{
+"value": 166,
+"name": "KC_SLEP",
+"label": "Sleep",
+"group": "Media"
+},
+{
+"value": 167,
+"name": "KC_WAKE",
+"label": "Wake",
+"group": "Media"
+},
+{
+"value": 168,
+"name": "KC_MUTE",
+"label": "Mute",
+"group": "Media"
+},
+{
+"value": 169,
+"name": "KC_VOLU",
+"label": "Volume Up",
+"group": "Media"
+},
+{
+"value": 170,
+"name": "KC_VOLD",
+"label": "Volume Down",
+"group": "Media"
+},
+{
+"value": 171,
+"name": "KC_MNXT",
+"label": "Next",
+"group": "Media"
+},
+{
+"value": 172,
+"name": "KC_MPRV",
+"label": "Previous",
+"group": "Media"
+},
+{
+"value": 173,
+"name": "KC_MSTP",
+"label": "Stop",
+"group": "Media"
+},
+{
+"value": 174,
+"name": "KC_MPLY",
+"label": "Play/Pause",
+"group": "Media"
+},
+{
+"value": 175,
+"name": "KC_MSEL",
+"label": "Media",
+"group": "Media"
+},
+{
+"value": 176,
+"name": "KC_EJCT",
+"label": "Eject",
+"group": "Media"
+},
+{
+"value": 177,
+"name": "KC_MAIL",
+"label": "Mail",
+"group": "Media"
+},
+{
+"value": 178,
+"name": "KC_CALC",
+"label": "Calculator",
+"group": "Media"
+},
+{
+"value": 179,
+"name": "KC_MYCM",
+"label": "My Computer",
+"group": "Media"
+},
+{
+"value": 180,
+"name": "KC_WSCH",
+"label": "Search",
+"group": "Media"
+},
+{
+"value": 181,
+"name": "KC_WHOM",
+"label": "Home",
+"group": "Media"
+},
+{
+"value": 182,
+"name": "KC_WBAK",
+"label": "Back",
+"group": "Media"
+},
+{
+"value": 183,
+"name": "KC_WFWD",
+"label": "Forward",
+"group": "Media"
+},
+{
+"value": 184,
+"name": "KC_WSTP",
+"label": "Stop",
+"group": "Media"
+},
+{
+"value": 185,
+"name": "KC_WREF",
+"label": "Refresh",
+"group": "Media"
+},
+{
+"value": 186,
+"name": "KC_WFAV",
+"label": "Favorites",
+"group": "Media"
+},
+{
+"value": 187,
+"name": "KC_MFFD",
+"label": "Fast Forward",
+"group": "Media"
+},
+{
+"value": 188,
+"name": "KC_MRWD",
+"label": "Rewind",
+"group": "Media"
+},
+{
+"value": 189,
+"name": "KC_BRIU",
+"label": "Brightness Up",
+"group": "Media"
+},
+{
+"value": 190,
+"name": "KC_BRID",
+"label": "Brightness Down",
+"group": "Media"
+},
+{
+"value": 191,
+"name": "KC_CPNL",
+"label": "Control Panel",
+"group": "Media"
+},
+{
+"value": 192,
+"name": "KC_ASST",
+"label": "Assistant",
+"group": "Media"
+},
+{
+"value": 193,
+"name": "KC_MCTL",
+"label": "Mission Control",
+"group": "Media"
+},
+{
+"value": 194,
+"name": "KC_LPAD",
+"label": "Launchpad",
+"group": "Media"
+},
+{
+"value": 205,
+"name": "MS_UP",
+"label": "Up",
+"group": "Mouse"
+},
+{
+"value": 206,
+"name": "MS_DOWN",
+"label": "Down",
+"group": "Mouse"
+},
+{
+"value": 207,
+"name": "MS_LEFT",
+"label": "Left",
+"group": "Mouse"
+},
+{
+"value": 208,
+"name": "MS_RGHT",
+"label": "Right",
+"group": "Mouse"
+},
+{
+"value": 209,
+"name": "MS_BTN1",
+"label": "Button 1",
+"group": "Mouse"
+},
+{
+"value": 210,
+"name": "MS_BTN2",
+"label": "Button 2",
+"group": "Mouse"
+},
+{
+"value": 211,
+"name": "MS_BTN3",
+"label": "Button 3",
+"group": "Mouse"
+},
+{
+"value": 212,
+"name": "MS_BTN4",
+"label": "Button 4",
+"group": "Mouse"
+},
+{
+"value": 213,
+"name": "MS_BTN5",
+"label": "Button 5",
+"group": "Mouse"
+},
+{
+"value": 214,
+"name": "MS_BTN6",
+"label": "Button 6",
+"group": "Mouse"
+},
+{
+"value": 215,
+"name": "MS_BTN7",
+"label": "Button 7",
+"group": "Mouse"
+},
+{
+"value": 216,
+"name": "MS_BTN8",
+"label": "Button 8",
+"group": "Mouse"
+},
+{
+"value": 217,
+"name": "MS_WHLU",
+"label": "Wheel Up",
+"group": "Mouse"
+},
+{
+"value": 218,
+"name": "MS_WHLD",
+"label": "Wheel Down",
+"group": "Mouse"
+},
+{
+"value": 219,
+"name": "MS_WHLL",
+"label": "Wheel Left",
+"group": "Mouse"
+},
+{
+"value": 220,
+"name": "MS_WHLR",
+"label": "Wheel Right",
+"group": "Mouse"
+},
+{
+"value": 221,
+"name": "MS_ACL0",
+"label": "Acceleration 0",
+"group": "Mouse"
+},
+{
+"value": 222,
+"name": "MS_ACL1",
+"label": "Acceleration 1",
+"group": "Mouse"
+},
+{
+"value": 223,
+"name": "MS_ACL2",
+"label": "Acceleration 2",
+"group": "Mouse"
+},
+{
+"value": 224,
+"name": "KC_LCTL",
+"label": "LControl",
+"group": "Modifiers"
+},
+{
+"value": 225,
+"name": "KC_LSFT",
+"label": "LShift",
+"group": "Modifiers"
+},
+{
+"value": 226,
+"name": "KC_LALT",
+"label": "LAlt",
+"group": "Modifiers"
+},
+{
+"value": 227,
+"name": "KC_LGUI",
+"label": "LGUI",
+"group": "Modifiers"
+},
+{
+"value": 228,
+"name": "KC_RCTL",
+"label": "RControl",
+"group": "Modifiers"
+},
+{
+"value": 229,
+"name": "KC_RSFT",
+"label": "RShift",
+"group": "Modifiers"
+},
+{
+"value": 230,
+"name": "KC_RALT",
+"label": "RAlt",
+"group": "Modifiers"
+},
+{
+"value": 231,
+"name": "KC_RGUI",
+"label": "RGUI",
+"group": "Modifiers"
+},
+{
+"value": 28672,
+"name": "CL_SWAP",
+"label": "Caps↔Ctrl",
+"group": "Special"
+},
+{
+"value": 28673,
+"name": "CL_NORM",
+"label": "Caps↔Ctrl off",
+"group": "Special"
+},
+{
+"value": 28683,
+"name": "GU_TOGG",
+"label": "Win lock",
+"group": "Special"
+},
+{
+"value": 28691,
+"name": "NK_TOGG",
+"label": "NKRO toggle",
+"group": "Special"
+},
+{
+"value": 28704,
+"name": "EC_SWAP",
+"label": "Caps↔Esc",
+"group": "Special"
+},
+{
+"value": 28705,
+"name": "EC_NORM",
+"label": "Caps↔Esc off",
+"group": "Special"
+},
+{
+"value": 30464,
+"name": "M0",
+"label": "Macro 0",
+"group": "Macros"
+},
+{
+"value": 30465,
+"name": "M1",
+"label": "Macro 1",
+"group": "Macros"
+},
+{
+"value": 30466,
+"name": "M2",
+"label": "Macro 2",
+"group": "Macros"
+},
+{
+"value": 30467,
+"name": "M3",
+"label": "Macro 3",
+"group": "Macros"
+},
+{
+"value": 30468,
+"name": "M4",
+"label": "Macro 4",
+"group": "Macros"
+},
+{
+"value": 30469,
+"name": "M5",
+"label": "Macro 5",
+"group": "Macros"
+},
+{
+"value": 30470,
+"name": "M6",
+"label": "Macro 6",
+"group": "Macros"
+},
+{
+"value": 30471,
+"name": "M7",
+"label": "Macro 7",
+"group": "Macros"
+},
+{
+"value": 30472,
+"name": "M8",
+"label": "Macro 8",
+"group": "Macros"
+},
+{
+"value": 30473,
+"name": "M9",
+"label": "Macro 9",
+"group": "Macros"
+},
+{
+"value": 30474,
+"name": "M10",
+"label": "Macro 10",
+"group": "Macros"
+},
+{
+"value": 30475,
+"name": "M11",
+"label": "Macro 11",
+"group": "Macros"
+},
+{
+"value": 30476,
+"name": "M12",
+"label": "Macro 12",
+"group": "Macros"
+},
+{
+"value": 30477,
+"name": "M13",
+"label": "Macro 13",
+"group": "Macros"
+},
+{
+"value": 30478,
+"name": "M14",
+"label": "Macro 14",
+"group": "Macros"
+},
+{
+"value": 30479,
+"name": "M15",
+"label": "Macro 15",
+"group": "Macros"
+},
+{
+"value": 30784,
+"name": "RM_ON",
+"label": "On",
+"group": "Lighting"
+},
+{
+"value": 30785,
+"name": "RM_OFF",
+"label": "Off",
+"group": "Lighting"
+},
+{
+"value": 30786,
+"name": "RM_TOGG",
+"label": "Toggle RGB Matrix",
+"group": "Lighting"
+},
+{
+"value": 30787,
+"name": "RM_NEXT",
+"label": "Next",
+"group": "Lighting"
+},
+{
+"value": 30788,
+"name": "RM_PREV",
+"label": "Previous",
+"group": "Lighting"
+},
+{
+"value": 30789,
+"name": "RM_HUEU",
+"label": "Hue Up",
+"group": "Lighting"
+},
+{
+"value": 30790,
+"name": "RM_HUED",
+"label": "Hue Down",
+"group": "Lighting"
+},
+{
+"value": 30791,
+"name": "RM_SATU",
+"label": "Saturation Up",
+"group": "Lighting"
+},
+{
+"value": 30792,
+"name": "RM_SATD",
+"label": "Saturation Down",
+"group": "Lighting"
+},
+{
+"value": 30793,
+"name": "RM_VALU",
+"label": "Value Up",
+"group": "Lighting"
+},
+{
+"value": 30794,
+"name": "RM_VALD",
+"label": "Value Down",
+"group": "Lighting"
+},
+{
+"value": 30795,
+"name": "RM_SPDU",
+"label": "Speed Up",
+"group": "Lighting"
+},
+{
+"value": 30796,
+"name": "RM_SPDD",
+"label": "Speed Down",
+"group": "Lighting"
+},
+{
+"value": 30797,
+"name": "RM_FLGN",
+"label": "Flag Next",
+"group": "Lighting"
+},
+{
+"value": 30798,
+"name": "RM_FLGP",
+"label": "Flag Previous",
+"group": "Lighting"
+},
+{
+"value": 31744,
+"name": "QK_BOOT",
+"label": "Flash mode",
+"group": "Special"
+},
+{
+"value": 31745,
+"name": "QK_RBT",
+"label": "Reboot",
+"group": "Special"
+},
+{
+"value": 31747,
+"name": "EE_CLR",
+"label": "Factory reset",
+"group": "Special"
+},
+{
+"value": 31766,
+"name": "QK_GESC",
+"label": "Esc / `",
+"group": "Special"
+},
+{
+"value": 31833,
+"name": "QK_LOCK",
+"label": "Key lock",
+"group": "Special"
+},
+{
+"value": 32256,
+"name": "KC_BT1",
+"label": "BT 1",
+"group": "Wireless",
+"desc": "Bluetooth host 1 (hold to pair)"
+},
+{
+"value": 32257,
+"name": "KC_BT2",
+"label": "BT 2",
+"group": "Wireless",
+"desc": "Bluetooth host 2 (hold to pair)"
+},
+{
+"value": 32258,
+"name": "KC_BT3",
+"label": "BT 3",
+"group": "Wireless",
+"desc": "Bluetooth host 3 (hold to pair)"
+},
+{
+"value": 32259,
+"name": "KC_2G4",
+"label": "2.4G",
+"group": "Wireless",
+"desc": "2.4 GHz dongle (hold to pair)"
+},
+{
+"value": 32260,
+"name": "KC_USB",
+"label": "USB",
+"group": "Wireless",
+"desc": "Wired USB mode"
+},
+{
+"value": 32261,
+"name": "BT_VOL",
+"label": "Batt",
+"group": "Wireless",
+"desc": "Show battery level"
+},
+{
+"value": 21024,
+"name": "MO(0)",
+"label": "Hold Windows",
+"group": "Layers",
+"desc": "Use the Windows layer while held"
+},
+{
+"value": 21088,
+"name": "TG(0)",
+"label": "Toggle Windows",
+"group": "Layers",
+"desc": "Switch the Windows layer on/off"
+},
+{
+"value": 20992,
+"name": "TO(0)",
+"label": "Go to Windows",
+"group": "Layers"
+},
+{
+"value": 21120,
+"name": "OSL(0)",
+"label": "Once Windows",
+"group": "Layers",
+"desc": "Next key only"
+},
+{
+"value": 21056,
+"name": "DF(0)",
+"label": "Default Windows",
+"group": "Layers"
+},
+{
+"value": 21025,
+"name": "MO(1)",
+"label": "Hold Windows Fn",
+"group": "Layers",
+"desc": "Use the Windows Fn layer while held"
+},
+{
+"value": 21089,
+"name": "TG(1)",
+"label": "Toggle Windows Fn",
+"group": "Layers",
+"desc": "Switch the Windows Fn layer on/off"
+},
+{
+"value": 20993,
+"name": "TO(1)",
+"label": "Go to Windows Fn",
+"group": "Layers"
+},
+{
+"value": 21121,
+"name": "OSL(1)",
+"label": "Once Windows Fn",
+"group": "Layers",
+"desc": "Next key only"
+},
+{
+"value": 21057,
+"name": "DF(1)",
+"label": "Default Windows Fn",
+"group": "Layers"
+},
+{
+"value": 21026,
+"name": "MO(2)",
+"label": "Hold Mac",
+"group": "Layers",
+"desc": "Use the Mac layer while held"
+},
+{
+"value": 21090,
+"name": "TG(2)",
+"label": "Toggle Mac",
+"group": "Layers",
+"desc": "Switch the Mac layer on/off"
+},
+{
+"value": 20994,
+"name": "TO(2)",
+"label": "Go to Mac",
+"group": "Layers"
+},
+{
+"value": 21122,
+"name": "OSL(2)",
+"label": "Once Mac",
+"group": "Layers",
+"desc": "Next key only"
+},
+{
+"value": 21058,
+"name": "DF(2)",
+"label": "Default Mac",
+"group": "Layers"
+},
+{
+"value": 21027,
+"name": "MO(3)",
+"label": "Hold Mac Fn",
+"group": "Layers",
+"desc": "Use the Mac Fn layer while held"
+},
+{
+"value": 21091,
+"name": "TG(3)",
+"label": "Toggle Mac Fn",
+"group": "Layers",
+"desc": "Switch the Mac Fn layer on/off"
+},
+{
+"value": 20995,
+"name": "TO(3)",
+"label": "Go to Mac Fn",
+"group": "Layers"
+},
+{
+"value": 21123,
+"name": "OSL(3)",
+"label": "Once Mac Fn",
+"group": "Layers",
+"desc": "Next key only"
+},
+{
+"value": 21059,
+"name": "DF(3)",
+"label": "Default Mac Fn",
+"group": "Layers"
+}
+]
