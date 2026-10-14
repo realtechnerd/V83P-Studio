@@ -1168,6 +1168,9 @@ function renderDevice() {
     ["LEDs", `${S.state.layout.led_count} (82 keys + ${S.state.layout.edge_leds.length} edge)`], ["Layers", "4 (Windows, Windows Fn, Mac, Mac Fn)"]];
   $("#dv-info").replaceChildren(el("h2", {}, "Keyboard"), el("div", { class: "kv" }, ...rows.flatMap(([k, v]) => [el("div", {}, k), el("div", {}, v)])));
   renderFirmwareCard();
+  if (window.mykeysApp?.getVersion && !S.appVersion)
+    window.mykeysApp.getVersion().then(v => { S.appVersion = v; renderDevice(); }).catch(() => {});
+  if (S.appVersion) $("#dv-info .kv").append(el("div", {}, "App version"), el("div", {}, S.appVersion));
   if (window.mykeysApp) {
     $("#dv-app").classList.remove("hidden");
     window.mykeysApp.getAutoStart().then(on => $("#dv-autostart").checked = on);

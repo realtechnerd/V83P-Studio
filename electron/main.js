@@ -187,6 +187,7 @@ function setAutoStart(on) {
   return getAutoStart();
 }
 ipcMain.handle("autostart:get", () => getAutoStart());
+ipcMain.handle("app:version", () => app.getVersion());
 // Title-bar buttons + window background follow the app's dark/light appearance.
 const TITLEBAR = { dark: { color: "#09090a", symbolColor: "#c9d1dc" }, light: { color: "#f4f4f1", symbolColor: "#3c3c43" } };
 ipcMain.handle("appearance:set", (_e, mode) => {
