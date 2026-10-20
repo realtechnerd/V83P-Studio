@@ -25,6 +25,7 @@ FPS = 30
 SILENCE_RELEASE = 8.0   # s of silence before the keyboard is given back
 SOUND_TO_START = 0.5    # s of continuous sound before taking over (ignores clicks/notification sounds)
 KEEPALIVE = 1.0         # s between LIVE refreshes (the firmware watchdog fires after 2 s)
+STYLE_FADE = 0.3     # seconds: crossfade when switching styles
 
 DEFAULTS = {"enabled": False, "only_spotify": True, "style": "spectrum", "palette": "matcha",
             "sensitivity": 1.0, "smoothing": 0.7, "dynamics": 0.4, "underglow_vu": True, "brightness": 1.0}
@@ -179,7 +180,21 @@ class MusicEngine:
         s, a = self.settings, self.capture.analyzer
         a.sensitivity, a.smoothing, a.dynamics = s["sensitivity"], s["smoothing"], s["dynamics"]
         pal = self.spotify.album if s["palette"] == "album" and self.spotify.album else s["palette"]
-        colors = self.vis.frame(a.snapshot(), t, s["style"], pal, s["underglow_vu"], s["brightness"] * fade)
+        snap = a.snapshot()
+        colors = self.vis.frame(snap, t, s["style"], pal, s["underglow_vu"], s["brightness"] * fade)
+        # switching styles: the old one fades into the new one over STYLE_FADE instead of snapping
+        if s["style"] != getattr(self, "_style", s["style"]):
+            self._style_prev, self._style_since = self._style, t
+        self._style = s["style"]
+        prev = getattr(self, "_style_prev", None)
+        if prev and t - self._style_since < STYLE_FADE:
+            k = (t - self._style_since) / STYLE_FADE
+            old = self.vis.frame(snap, t, prev, pal, s["underglow_vu"], s["brightness"] * fade)
+            colors = [None if (a_ is None and b_ is None) else
+                      tuple(int((a_ or (0, 0, 0))[j] * (1 - k) + (b_ or (0, 0, 0))[j] * k) for j in range(3))
+                      for a_, b_ in zip(old, colors)]
+        else:
+            self._style_prev = None
         self.frame = colors
         meter = getattr(self.svc, "volume_meter", None)
         if meter is not None:

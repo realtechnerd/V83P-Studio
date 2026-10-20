@@ -50,6 +50,8 @@ class KeyboardService:
         self._last_write = self._last_sync = 0.0
         self._stop = threading.Event()
         self._overlay_hidden = False  # per-key colors hidden while a reaction plays
+        self._resume = None           # the user's lighting, if the keyboard left mid-reaction (restored on return)
+        self._live_ping = 0.0
         from ..flasher import Flasher
         self.flasher = Flasher(self)  # (before the watch thread starts: it asks the flasher)
         threading.Thread(target=self._watch, daemon=True, name="studio-watch").start()
@@ -153,7 +155,14 @@ class KeyboardService:
             info = self.perkey.detect()
             self.firmware = {"release": f"{self.kb.info['release_number']:04X}",
                              "mykeys": info is not None, "protocol": info[0] if info else None}
-            self.engine = Engine(self.rgb, on_playing=self._reaction_playing).start()
+            self.engine = Engine(self.rgb, on_playing=self._reaction_playing, on_frame=self._reaction_frame).start()
+            if self._resume is not None:
+                # it left (2.4G / Bluetooth / off) mid-reaction: put the user's lighting back, don't adopt the
+                # frozen reaction frame as their lighting
+                self.rgb.apply(self._resume, force=True)
+                self.engine.set_base(self._resume)
+                log.info("restored lighting after the keyboard came back mid-reaction")
+            self._resume = None
             self.triggers = TriggerManager(self.engine, load_rules().get("rules", [])).start()
         except Exception:
             self._disconnect()
@@ -167,6 +176,12 @@ class KeyboardService:
         pk = self.perkey
         if pk is None or not self.ours():
             return
+        live = (self.firmware.get("protocol") or 0) >= 3
+        if playing and live:
+            # a "live" session: if the keyboard switches to 2.4G / Bluetooth (or the app dies) mid-reaction, it
+            # restores the saved lighting by itself (per-key colors; firmware 2.3+ also the effect)
+            pk.live(True)
+            self._live_ping = time.monotonic()
         if getattr(self, "volume_meter", None) and self.volume_meter.owns:
             return                    # the meter owns the per-key layer; it sorts this out when it's done
         if playing and not self._overlay_hidden and self.app_state.get("perkey_enabled"):
@@ -175,8 +190,20 @@ class KeyboardService:
         elif not playing and self._overlay_hidden:
             self._overlay_hidden = False
             pk.enable(True)
+        if not playing and live and not (getattr(self, "music", None) and self.music.active):
+            pk.live(False)
+
+    def _reaction_frame(self):
+        """Keep the live session alive while a reaction plays (the keyboard drops it after 2 s of silence)."""
+        if self.perkey is not None and self.ours() and time.monotonic() - self._live_ping > 1.0 \
+                and (self.firmware.get("protocol") or 0) >= 3:
+            self._live_ping = time.monotonic()
+            self.perkey.live_ping()
 
     def _disconnect(self):
+        if self.engine is not None and (self.engine._active or self._overlay_hidden):
+            self._resume = self.engine.base   # left mid-reaction: remember the user's lighting for the return
+        self._overlay_hidden = False
         for part in (self.triggers, self.engine):
             if part:
                 try:

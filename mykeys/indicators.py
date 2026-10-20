@@ -23,6 +23,8 @@ SOFT = 0.07           # width of the soft edge (≈ one key)
 UNFILLED = 0.15       # unfilled keys: the user's own color at this brightness
 MUTE_RGB = (150, 18, 18)
 KEEPALIVE = 1.0
+ONE_COLOR = {"solid_color", "breathing"}   # effects that show a single steady color on every key
+LIVE_MIN = 0.15       # an animated key under the soft edge shows the bar from this much fill on
 DEFAULTS = {"enabled": True, "color": "auto"}   # color: "auto" | "gradient" | "#rrggbb"
 
 
@@ -48,12 +50,17 @@ def _positions(layout):
 
 
 def volume_frame(positions, level, base, bar, unfilled=UNFILLED, soft=SOFT, alpha=1.0):
-    """One frame: base = the user's colors (list of (r,g,b)), bar = the meter color (or a function of level).
-    alpha blends the whole meter in/out over the user's own lighting (fades)."""
+    """One frame: base = the user's colors per LED, (r,g,b) or None where the keyboard's own animation shows
+    (it can't be dimmed from here, so it keeps running); bar = the meter color.
+    alpha blends the whole meter in/out over the user's own lighting (fades). Returns (r,g,b) or None per LED."""
     lvl = level * (1 + soft) - soft / 2          # so 0 % lights nothing and 100 % lights everything
     out = []
     for i, b in enumerate(base):
         f = _smooth((lvl - positions.get(i, 0.0)) / soft + 0.5)
+        if b is None:                            # animated key: the animation, or the bar once it's reached
+            k = f * alpha
+            out.append(None if k < LIVE_MIN else tuple(max(0, min(255, round(v * k))) for v in bar))
+            continue
         meter = _mix(tuple(c * unfilled for c in b), bar, f)
         c = _mix(b, meter, alpha)
         out.append(tuple(max(0, min(255, round(v))) for v in c))
@@ -92,6 +99,7 @@ class VolumeMeter:
         self.muted = False
         self.since = self.last = 0.0              # meter appeared / last volume change
         self.owns = False                         # streaming over the user's lighting right now
+        self._colored = set()                      # LEDs that currently have a per-key color on the keyboard
         self.overlay = False                      # drawn inside music mode's frames instead
         self._wake = threading.Event()
         self._stop = threading.Event()
@@ -151,17 +159,23 @@ class VolumeMeter:
             return to_rgb(s)
         cw = BOARD.colorways.get(self.svc.app_state.get("ui", {}).get("colorway") or BOARD.info.get("default_colorway"), {})
         accent = to_rgb((cw.get("accent", {}).get("dark", {}) or {}).get("accent", "#b9e48f"))
-        return auto_color(accent, [c for c in self._base() if any(c)])
+        return auto_color(accent, [c for c in self._base() if c and any(c)])
 
     def _base(self):
-        """The user's lighting per LED: per-key colors from the app's cache; animated keys take the effect's color."""
+        """The user's lighting per LED: per-key colors from the app's cache. Animated keys: a single-color effect
+        (static color, breathing) gives its color; off gives black; anything multi-color (rainbows, spiral, …)
+        gives None, so the real animation keeps running there."""
+        from .via import EFFECTS
         svc, n = self.svc, self.svc.layout["led_count"]
         st = svc.engine.base if svc.engine else None
-        if st is not None:
+        name = EFFECTS.get(st.effect) if st is not None else None
+        if name == "off":
+            effect_rgb = (0, 0, 0)
+        elif name in ONE_COLOR:
             r, g, b = colorsys.hsv_to_rgb(st.hue / 255, st.sat / 255, 1.0)
             effect_rgb = (r * 255, g * 255, b * 255)
         else:
-            effect_rgb = (180, 180, 180)
+            effect_rgb = None
         cache = svc.app_state.get("perkey", {}) if svc.app_state.get("perkey_enabled") else {}
         return [to_rgb(cache[str(i)]) if str(i) in cache else effect_rgb for i in range(n)]
 
@@ -172,6 +186,17 @@ class VolumeMeter:
         now = time.monotonic()
         base = [c if c else (0, 0, 0) for c in colors]
         return volume_frame(self.positions, self.shown, base, self._bar(), alpha=self._alpha(now))
+
+    def _send(self, frame):
+        """Stream a frame. A key going back to None (the animation) needs its per-key color removed, which the
+        firmware can only do for all keys at once: clear, then resend the keys that keep a color."""
+        pk = self.svc.perkey
+        back = {i for i, c in enumerate(frame) if c is None} & self._colored
+        if back:
+            pk.clear()
+            self._colored = set()
+        self._colored |= {i for i, c in enumerate(frame) if c is not None}
+        return pk.stream(frame)
 
     def _run(self):
         while not self._stop.is_set():
@@ -214,7 +239,7 @@ class VolumeMeter:
                 break
             self.shown += (self.level - self.shown) * (1 - math.exp(-(now - prev) / EASE))
             prev = now
-            sent = svc.perkey.stream(volume_frame(self.positions, self.shown, self._base(), self._bar(), alpha=a))
+            sent = self._send(volume_frame(self.positions, self.shown, self._base(), self._bar(), alpha=a))
             if live and not sent and now - keep > KEEPALIVE:
                 svc.perkey.live_ping()
                 keep = now
@@ -228,6 +253,11 @@ class VolumeMeter:
         svc = self.svc
         with svc.lock:
             self.owns = True
+            cache = svc.app_state.get("perkey", {}) if svc.app_state.get("perkey_enabled") else {}
+            self._colored = {int(i) for i in cache}
+            if not svc.app_state.get("perkey_enabled"):
+                svc.perkey.clear()                  # hidden old colors must not reappear when we enable
+                self._colored = set()
             svc.perkey.enable(True)                 # also when a reaction had hidden the per-key layer
             if svc.firmware and (svc.firmware.get("protocol") or 0) >= 3:
                 svc.perkey.live(True)               # the app dies mid-meter → the keyboard reloads its saved lighting
