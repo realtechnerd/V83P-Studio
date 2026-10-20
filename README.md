@@ -94,6 +94,11 @@ and automatic profiles need the app (it can stay in the tray, and start with Win
   for data).
 - Installer: `pip install pyinstaller`, then `cd electron && npm run dist`. This freezes the Python backend into
   `dist/backend` (`tools/build_backend.py`) and builds `dist/installer/V83P-Studio-Setup-<version>.exe`.
+- Building in the cloud: [`.github/workflows/build.yml`](.github/workflows/build.yml) builds the installer on GitHub
+  Actions for every push to `main`, pull request and manual run (download it from the run's Artifacts). Pushing a
+  `v<version>` tag that matches `electron/package.json` also attaches it to that tag's GitHub Release (created as a
+  pre-release if needed). CI-built installers are the prerequisite for free code signing through SignPath, whose
+  open-source program only signs artifacts built in CI.
 - Firmware: see [`firmware/source/README.md`](firmware/source/README.md).
 - Bundled third-party tools are listed in [`vendor/README.md`](vendor/README.md).
 
