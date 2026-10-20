@@ -7,7 +7,7 @@
     "usb": {
         "vid": "0xFFFE",
         "pid": "0x001B",
-        "device_version": "2.2.0",
+        "device_version": "2.3.0",
         "suspend_wakeup_delay": 1000
     },
     "host": {

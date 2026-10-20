@@ -15,7 +15,17 @@ copyright headers (QMK, HFD / jonylee1986, JoyLee).
 2. Copy `v83p_mykeys/` from here to `keyboards/inland/v83p_mykeys/`.
 3. Copy HFD's precompiled wireless library into it (not included here, because it's HFD's binary):
    `cp keyboards/hfdkb/cx70/common/lib_bts.a keyboards/inland/v83p_mykeys/common/`
-4. Build with QMK MSYS: `qmk compile -kb inland/v83p_mykeys -km via`
+4. Build: `qmk compile -kb inland/v83p_mykeys -km via` (QMK MSYS on Windows, or any Linux / WSL with QMK installed).
 
-The release version is `device_version` in `keyboard.json` (2.2.0 → USB release 0x0220); the app checks it after an
+   If Windows **Smart App Control** blocks QMK MSYS's compiler ("An Application Control policy has blocked this
+   file"), build in WSL Ubuntu instead:
+   ```
+   sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi libnewlib-arm-none-eabi pipx git
+   pipx install qmk
+   ```
+   Build inside the Linux file system (e.g. a copy of the tree in `~/qmk_mykeys`, without its `.build` folder):
+   it's much faster than `/mnt/c`, and old Windows build files confuse the Linux build. Release 2.3.0 was built
+   this way (GCC 14.2).
+
+The release version is `device_version` in `keyboard.json` (2.3.0 → USB release 0x0230); the app checks it after an
 install.

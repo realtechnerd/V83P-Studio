@@ -22,9 +22,11 @@ _Static_assert(sizeof(mykeys_state_t) == EECONFIG_KB_DATA_SIZE, "update EECONFIG
 static mykeys_state_t mk;
 static bool           jump_to_bootloader = false;
 
-// Live stream watchdog (protocol 3): while the app streams frames (music mode), the overlay holds
-// throwaway colors. If the stream stops (app closed/crashed, cable pulled, PC asleep) or the keyboard
-// leaves USB mode, the app can't restore the user's lighting, so the keyboard does it itself.
+// Live session watchdog (protocol 3): while the app shows something temporary (music mode, the volume
+// meter, a reaction), the overlay and the effect hold throwaway values. If the app goes quiet (closed,
+// crashed, cable pulled, PC asleep) or the keyboard leaves USB mode (switched to 2.4G / Bluetooth), the app
+// can't restore the user's lighting, so the keyboard does it itself: per-key colors and, since 2.3.0, the
+// effect / brightness / color too, all as saved with "Save to keyboard".
 #define MK_LIVE_TIMEOUT 2000 // ms without a frame
 static bool     live      = false;
 static uint32_t live_seen = 0;
@@ -54,7 +56,8 @@ void eeconfig_init_kb_datablock(void) {
 void mykeys_task(void) {
     if (live && (timer_elapsed32(live_seen) > MK_LIVE_TIMEOUT || dev_info.devs != DEVS_USB)) {
         live = false;
-        load(); // back to the lighting saved with "Save to keyboard"
+        load();                          // per-key colors as saved with "Save to keyboard"
+        rgb_matrix_reload_from_eeprom(); // and the saved effect, brightness, speed and color (reads only)
     }
 }
 
