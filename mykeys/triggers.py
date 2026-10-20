@@ -65,9 +65,16 @@ class TriggerManager:
         return self
 
     def stop(self):
+        """Stop watching, and stop every animation this manager started (rules saved, deleted or paused)."""
         self._stop.set()
         if self._thread:
             self._thread.join(2)
+        for h, *_ in self._launches.values():
+            self.engine.cancel(h)
+        for h in self._fg.values():
+            self.engine.cancel(h)
+        self._launches.clear()
+        self._fg.clear()
 
     def _run(self):
         known = set(psutil.pids())  # ignore everything already running
@@ -124,7 +131,10 @@ class TriggerManager:
             for i, r in fg_rules:
                 hit = _matches(fg, r["apps"])
                 if hit and i not in self._fg:
-                    self._fg[i] = self.engine.play(from_spec({"name": r.get("name", fg), **r["animation"]}))
+                    spec = {"name": r.get("name", fg), **r["animation"]}
+                    if spec.get("type") == "flash":
+                        spec["duration"] = None       # keep blinking while the app is focused
+                    self._fg[i] = self.engine.play(from_spec(spec))
                 elif not hit and i in self._fg:
                     self.engine.cancel(self._fg.pop(i))
         return pids

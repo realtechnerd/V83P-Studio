@@ -16,6 +16,8 @@ def parse_color(c):
     """'#ff8800' / 'ff8800' / (r,g,b) -> (hue, sat, val) as 0-255."""
     if isinstance(c, str):
         c = c.lstrip("#")
+        if len(c) == 3:                      # "#fa0" → "ffaa00"
+            c = "".join(x * 2 for x in c)
         c = tuple(int(c[i:i + 2], 16) for i in (0, 2, 4))
     h, s, v = colorsys.rgb_to_hsv(*(x / 255 for x in c))
     return round(h * 255), round(s * 255), round(v * 255)

@@ -1,7 +1,7 @@
 {
   "name": "v83p-studio",
   "productName": "V83P Studio",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Lighting, keys, macros and more for the Inland MK PRO V2",
   "main": "main.js",
   "private": true,

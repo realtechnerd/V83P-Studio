@@ -49,12 +49,13 @@ class KeyboardService:
         self._flash_check = 0.0
         self._last_write = self._last_sync = 0.0
         self._stop = threading.Event()
+        self._overlay_hidden = False  # per-key colors hidden while a reaction plays
+        from ..flasher import Flasher
+        self.flasher = Flasher(self)  # (before the watch thread starts: it asks the flasher)
         threading.Thread(target=self._watch, daemon=True, name="studio-watch").start()
         threading.Thread(target=self._auto_loop, daemon=True, name="studio-autoprofile").start()
         from ..music.engine import MusicEngine
         self.music = MusicEngine(self)
-        from ..flasher import Flasher
-        self.flasher = Flasher(self)
 
     # ---------- persistence ----------
     def _load_state(self):
@@ -126,7 +127,8 @@ class KeyboardService:
         Skipped right after the app changes something (so a write in flight isn't undone)
         and while a reaction animation is playing (the keyboard shows the animation, not the base)."""
         self._last_sync = time.monotonic()
-        if time.monotonic() - self._last_write < 1.5 or self.engine._active or getattr(self, "music", None) and self.music.active:
+        if time.monotonic() - self._last_write < 1.5 or self.engine._active or self._overlay_hidden \
+                or getattr(self, "music", None) and self.music.active:
             return
         actual = self.rgb.read()  # also marks it as already sent
         self.engine.set_base(actual)
@@ -146,12 +148,26 @@ class KeyboardService:
             info = self.perkey.detect()
             self.firmware = {"release": f"{self.kb.info['release_number']:04X}",
                              "mykeys": info is not None, "protocol": info[0] if info else None}
-            self.engine = Engine(self.rgb).start()
+            self.engine = Engine(self.rgb, on_playing=self._reaction_playing).start()
             self.triggers = TriggerManager(self.engine, load_rules().get("rules", [])).start()
         except Exception:
             self._disconnect()
             raise
         log.info("keyboard connected: %s", self.firmware)
+
+    def _reaction_playing(self, playing):
+        """Reactions change the keyboard's effect, which per-key colors would cover (a fully static keyboard
+        showed nothing but Pulse's dimming). Hide the per-key layer while one plays and bring it back after.
+        RAM only: the saved colors are untouched, and a replug restores them anyway."""
+        pk = self.perkey
+        if pk is None or not self.ours():
+            return
+        if playing and not self._overlay_hidden and self.app_state.get("perkey_enabled"):
+            pk.enable(False)
+            self._overlay_hidden = True
+        elif not playing and self._overlay_hidden:
+            self._overlay_hidden = False
+            pk.enable(True)
 
     def _disconnect(self):
         for part in (self.triggers, self.engine):
@@ -180,7 +196,8 @@ class KeyboardService:
 
     def _label(self, now):
         """In flash mode the keyboard is gone from USB while the 2.4G dongle stays: that's not 'wireless'."""
-        return "flashing" if now != "wired" and (self.flashing or self.flasher.busy) else now
+        busy = getattr(self, "flasher", None) is not None and self.flasher.busy
+        return "flashing" if now != "wired" and (self.flashing or busy) else now
 
     # ---------- firmware wizard ----------
     def enter_flash_mode(self):

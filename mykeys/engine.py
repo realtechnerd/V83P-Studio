@@ -11,8 +11,10 @@ log = logging.getLogger(__name__)
 
 
 class Engine:
-    def __init__(self, rgb: RGBMatrix, base: LightState | None = None, fps=30):
+    def __init__(self, rgb: RGBMatrix, base: LightState | None = None, fps=30, on_playing=None):
         self.rgb = rgb
+        self.on_playing = on_playing        # called with True/False when animations start / all end
+        self._playing = False
         self.original = rgb.read()          # restored on stop()
         self.base = base or self.original
         self.fps = fps
@@ -58,8 +60,17 @@ class Engine:
         self._wake.set()
         if self._thread:
             self._thread.join(2)
+        self._notify(False)
         if restore:
             self.rgb.apply(self.original, force=True)
+
+    def _notify(self, playing):
+        if playing != self._playing and self.on_playing:
+            self._playing = playing
+            try:
+                self.on_playing(playing)
+            except Exception as e:
+                log.warning("on_playing(%s) failed: %s", playing, e)
 
     # --- loop ---
     def current(self, now):
@@ -80,7 +91,9 @@ class Engine:
             t = time.monotonic()
             if not self.paused:
                 try:
-                    self.rgb.apply(self.current(t))
+                    st = self.current(t)
+                    self._notify(bool(self._active))   # e.g. per-key colors step aside while a reaction plays
+                    self.rgb.apply(st)
                 except Exception as e:  # unplugged, asleep, etc.: keep running, retry later
                     log.warning("device error: %s", e)
                     self.rgb._sent = None
