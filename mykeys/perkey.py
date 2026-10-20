@@ -8,7 +8,7 @@ from pathlib import Path
 from .device import Keyboard
 
 MK_GET_INFO, MK_SET_LEDS, MK_ENABLE, MK_CLEAR, MK_FILL, MK_SAVE, MK_LOAD, MK_GET_LEDS = range(0x40, 0x48)
-MK_LIVE, MK_BOOTLOADER = 0x48, 0x4F
+MK_LIVE, MK_UNSET, MK_DIM, MK_BOOTLOADER = 0x48, 0x49, 0x4A, 0x4F
 PER_REPORT = 9  # LEDs per SET_LEDS report: 3 header bytes + 9 * rgb = 30 of 32
 from .boards import current as BOARD
 
@@ -127,6 +127,25 @@ class PerKey:
     def live_ping(self):
         """Keep-alive for the live watchdog (fire-and-forget, used while frames don't change)."""
         self.kb.send([MK_LIVE, 1])
+
+    def unset(self, leds):
+        """Protocol 4+: give LEDs back to the effect without touching the others (fire-and-forget, so it can be
+        streamed; clear() + resending the rest flickers)."""
+        leds = sorted({int(i) for i in leds})
+        run = []
+        for i in leds + [None]:
+            if run and (i is None or i != run[-1] + 1):
+                self.kb.send([MK_UNSET, run[0], len(run)])
+                run = []
+            if i is not None:
+                run.append(i)
+        for i in leds:
+            self._sent.pop(i, None)
+
+    def dim(self, level):
+        """Protocol 4+: show the effect at level/255 where no per-key color is set (255 = normal). Not saved;
+        the keyboard resets it when a live session ends (fire-and-forget)."""
+        self.kb.send([MK_DIM, max(0, min(255, int(level)))])
 
     def bootloader(self):
         """Enter flash mode without wiping settings (protocol 2+)."""

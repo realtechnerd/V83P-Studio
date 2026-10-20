@@ -24,8 +24,8 @@ copyright headers (QMK, HFD / jonylee1986, JoyLee).
    pipx install qmk
    ```
    Build inside the Linux file system (e.g. a copy of the tree in `~/qmk_mykeys`, without its `.build` folder):
-   it's much faster than `/mnt/c`, and old Windows build files confuse the Linux build. Release 2.3.0 was built
+   it's much faster than `/mnt/c`, and old Windows build files confuse the Linux build. Releases since 2.3.0 are built
    this way (GCC 14.2).
 
-The release version is `device_version` in `keyboard.json` (2.3.0 → USB release 0x0230); the app checks it after an
+The release version is `device_version` in `keyboard.json` (2.4.0 → USB release 0x0240); the app checks it after an
 install.

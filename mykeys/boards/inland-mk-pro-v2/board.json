@@ -24,6 +24,6 @@
              "RCTRL", "HOME", "END", "PAGEUP", "PAGEDOWN"],
     "highs": ["ESC", "BACKSPACE", "ENTER", "SPACE", "UP", "DOWN", "LEFT", "RIGHT"]
   },
-  "firmware": { "file": "mykeys_v83p_v2.3.0.bin", "version": "2.3.0", "release": "0230", "min_protocol": 3 },
+  "firmware": { "file": "mykeys_v83p_v2.4.0.bin", "version": "2.4.0", "release": "0240", "min_protocol": 3 },
   "default_colorway": "matcha"
 }

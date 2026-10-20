@@ -51,7 +51,7 @@ def _positions(layout):
 
 def volume_frame(positions, level, base, bar, unfilled=UNFILLED, soft=SOFT, alpha=1.0):
     """One frame: base = the user's colors per LED, (r,g,b) or None where the keyboard's own animation shows
-    (it can't be dimmed from here, so it keeps running); bar = the meter color.
+    (it keeps running there; firmware 2.4.0+ dims it with dim_level()); bar = the meter color.
     alpha blends the whole meter in/out over the user's own lighting (fades). Returns (r,g,b) or None per LED."""
     lvl = level * (1 + soft) - soft / 2          # so 0 % lights nothing and 100 % lights everything
     out = []
@@ -65,6 +65,11 @@ def volume_frame(positions, level, base, bar, unfilled=UNFILLED, soft=SOFT, alph
         c = _mix(b, meter, alpha)
         out.append(tuple(max(0, min(255, round(v))) for v in c))
     return out
+
+
+def dim_level(alpha, unfilled=UNFILLED):
+    """How bright the keyboard's own animation runs under the meter (0..255), like the unfilled per-key colors."""
+    return round(255 * (1 - (1 - unfilled) * alpha))
 
 
 def _hue(rgb):
@@ -100,6 +105,7 @@ class VolumeMeter:
         self.since = self.last = 0.0              # meter appeared / last volume change
         self.owns = False                         # streaming over the user's lighting right now
         self._colored = set()                      # LEDs that currently have a per-key color on the keyboard
+        self._dim = 255                           # how bright the keyboard's own animation runs (firmware 2.4.0+)
         self.overlay = False                      # drawn inside music mode's frames instead
         self._wake = threading.Event()
         self._stop = threading.Event()
@@ -187,16 +193,30 @@ class VolumeMeter:
         base = [c if c else (0, 0, 0) for c in colors]
         return volume_frame(self.positions, self.shown, base, self._bar(), alpha=self._alpha(now))
 
-    def _send(self, frame):
-        """Stream a frame. A key going back to None (the animation) needs its per-key color removed, which the
-        firmware can only do for all keys at once: clear, then resend the keys that keep a color."""
+    def _proto(self):
+        return (self.svc.firmware or {}).get("protocol") or 0
+
+    def _send(self, frame, alpha):
+        """Stream a frame. A key going back to None (the animation) needs its per-key color removed: firmware
+        2.4.0+ does just those keys; older firmware only all at once (clear, then resend the rest: flickers)."""
         pk = self.svc.perkey
         back = {i for i, c in enumerate(frame) if c is None} & self._colored
-        if back:
+        sent = 0
+        if self._proto() >= 4:
+            if back:
+                pk.unset(back)
+                self._colored -= back
+                sent += len(back)
+            level = dim_level(alpha)
+            if level != self._dim:
+                pk.dim(level)
+                self._dim = level
+                sent += 1
+        elif back:
             pk.clear()
             self._colored = set()
         self._colored |= {i for i, c in enumerate(frame) if c is not None}
-        return pk.stream(frame)
+        return sent + pk.stream(frame)
 
     def _run(self):
         while not self._stop.is_set():
@@ -239,7 +259,7 @@ class VolumeMeter:
                 break
             self.shown += (self.level - self.shown) * (1 - math.exp(-(now - prev) / EASE))
             prev = now
-            sent = self._send(volume_frame(self.positions, self.shown, self._base(), self._bar(), alpha=a))
+            sent = self._send(volume_frame(self.positions, self.shown, self._base(), self._bar(), alpha=a), a)
             if live and not sent and now - keep > KEEPALIVE:
                 svc.perkey.live_ping()
                 keep = now
@@ -272,8 +292,11 @@ class VolumeMeter:
                 pk = svc.perkey
                 if pk is None:
                     return
+                if self._dim != 255:
+                    pk.dim(255)
+                    self._dim = 255
                 if svc.firmware and (svc.firmware.get("protocol") or 0) >= 3:
-                    pk.live(False)
+                    pk.live(False)              # (2.4.0+ also undims here)
                 n = svc.layout["led_count"]
                 cache = svc.app_state.get("perkey", {})
                 if all(str(i) in cache for i in range(n)):

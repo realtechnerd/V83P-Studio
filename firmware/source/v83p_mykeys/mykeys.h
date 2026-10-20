@@ -15,13 +15,16 @@
 //   0x4F BOOTLOADER                  -> reply, then enter flash mode without wiping settings (v2)
 //   0x48 LIVE      on                -> streaming frames (v3): if frames stop for 2 s or the keyboard leaves
 //                                       USB mode, it reloads its saved per-key map by itself
+//   0x49 UNSET     start count       -> unmark LEDs (the effect shows there again) without touching the rest (v4)
+//   0x4A DIM       level             -> the effect at level/255 where no per-key color is set; 255 = normal (v4).
+//                                       Not saved; back to 255 when a live session ends
 // Any error answers with 0xFF in byte 0, like VIA's id_unhandled.
 #pragma once
 
 #include <stdbool.h>
 #include <stdint.h>
 
-#define MYKEYS_PROTOCOL 3
+#define MYKEYS_PROTOCOL 4
 
 enum mykeys_command {
     MK_GET_INFO = 0x40,
@@ -33,6 +36,8 @@ enum mykeys_command {
     MK_LOAD       = 0x46,
     MK_GET_LEDS   = 0x47,
     MK_LIVE       = 0x48,
+    MK_UNSET      = 0x49,
+    MK_DIM        = 0x4A,
     MK_BOOTLOADER = 0x4F,
 };
 

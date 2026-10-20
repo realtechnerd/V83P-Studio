@@ -31,6 +31,25 @@ static bool           jump_to_bootloader = false;
 static bool     live      = false;
 static uint32_t live_seen = 0;
 
+// DIM (protocol 4): the effect is dimmed under the app's overlay (the volume meter) by scaling what it just
+// wrote into the LED driver's PWM buffer. That buffer isn't in the driver's header, so this mirrors its
+// layout from drivers/led/snled27351.c (keep in sync if QMK changes it).
+typedef struct snled27351_driver_t {
+    uint8_t pwm_buffer[192];
+    bool    pwm_buffer_dirty;
+    uint8_t led_control_buffer[24];
+    bool    led_control_buffer_dirty;
+} PACKED snled27351_driver_t;
+extern snled27351_driver_t driver_buffers[];
+static uint8_t             dim = 255;
+
+static void dim_effect(uint8_t i) {
+    snled27351_led_t led;
+    memcpy_P(&led, &g_snled27351_leds[i], sizeof(led));
+    uint8_t *pwm = driver_buffers[led.driver].pwm_buffer;
+    rgb_matrix_set_color(i, scale8(pwm[led.r], dim), scale8(pwm[led.g], dim), scale8(pwm[led.b], dim));
+}
+
 static inline bool is_set(uint8_t i) {
     return mk.mask[i >> 3] & (1 << (i & 7));
 }
@@ -56,6 +75,7 @@ void eeconfig_init_kb_datablock(void) {
 void mykeys_task(void) {
     if (live && (timer_elapsed32(live_seen) > MK_LIVE_TIMEOUT || dev_info.devs != DEVS_USB)) {
         live = false;
+        dim  = 255;
         load();                          // per-key colors as saved with "Save to keyboard"
         rgb_matrix_reload_from_eeprom(); // and the saved effect, brightness, speed and color (reads only)
     }
@@ -63,11 +83,12 @@ void mykeys_task(void) {
 
 void mykeys_render(uint8_t led_min, uint8_t led_max) {
     mykeys_task();
-    if (!mk.enabled) return;
     uint8_t val = rgb_matrix_get_val(); // global brightness still applies (and caps power)
     for (uint8_t i = led_min; i < led_max; i++) {
-        if (is_set(i)) {
+        if (mk.enabled && is_set(i)) {
             rgb_matrix_set_color(i, scale8(mk.rgb[i][0], val), scale8(mk.rgb[i][1], val), scale8(mk.rgb[i][2], val));
+        } else if (dim < 255) {
+            dim_effect(i);
         }
     }
 }
@@ -95,6 +116,22 @@ static bool handle(uint8_t *data, uint8_t length) {
 
         case MK_LIVE:
             live      = data[1] ? true : false;
+            live_seen = timer_read32();
+            if (!live) dim = 255;
+            return true;
+
+        case MK_UNSET: {
+            uint8_t start = data[1], count = data[2];
+            if (start + count > RGB_MATRIX_LED_COUNT) break;
+            for (uint8_t i = start; i < start + count; i++) {
+                mk.mask[i >> 3] &= ~(1 << (i & 7));
+            }
+            live_seen = timer_read32();
+            return true;
+        }
+
+        case MK_DIM:
+            dim       = data[1];
             live_seen = timer_read32();
             return true;
 
