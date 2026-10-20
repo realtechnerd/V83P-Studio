@@ -56,6 +56,10 @@ class KeyboardService:
         threading.Thread(target=self._auto_loop, daemon=True, name="studio-autoprofile").start()
         from ..music.engine import MusicEngine
         self.music = MusicEngine(self)
+        from ..indicators import VolumeMeter
+        from ..volume import VolumeWatcher
+        self.volume_meter = VolumeMeter(self)       # the keyboard shows the volume when it changes
+        self.volume = VolumeWatcher(self.volume_meter.on_volume).start()
 
     # ---------- persistence ----------
     def _load_state(self):
@@ -128,6 +132,7 @@ class KeyboardService:
         and while a reaction animation is playing (the keyboard shows the animation, not the base)."""
         self._last_sync = time.monotonic()
         if time.monotonic() - self._last_write < 1.5 or self.engine._active or self._overlay_hidden \
+                or getattr(self, "volume_meter", None) and self.volume_meter.owns \
                 or getattr(self, "music", None) and self.music.active:
             return
         actual = self.rgb.read()  # also marks it as already sent
@@ -162,6 +167,8 @@ class KeyboardService:
         pk = self.perkey
         if pk is None or not self.ours():
             return
+        if getattr(self, "volume_meter", None) and self.volume_meter.owns:
+            return                    # the meter owns the per-key layer; it sorts this out when it's done
         if playing and not self._overlay_hidden and self.app_state.get("perkey_enabled"):
             pk.enable(False)
             self._overlay_hidden = True
@@ -244,6 +251,18 @@ class KeyboardService:
             self._need_ours("Music mode")
         return self.music.update(changes)
 
+    # ---------- indicators (volume meter) ----------
+    def get_indicators(self):
+        return {"volume": self.volume_meter.settings, "level": self.volume.level, "muted": self.volume.muted}
+
+    def set_indicators(self, changes):
+        return {"volume": self.volume_meter.update(changes.get("volume", {}))}
+
+    def preview_indicator(self):
+        self._need()
+        self._need_ours("The volume display")
+        self.volume_meter.on_volume(self.volume.level or 0.0, bool(self.volume.muted), force=True)
+
     # ---------- app preferences (colorway, appearance) ----------
     def set_prefs(self, prefs):
         with self.lock:
@@ -254,6 +273,9 @@ class KeyboardService:
 
     def shutdown(self):
         self._stop.set()
+        for part in ("volume", "volume_meter"):
+            if getattr(self, part, None):
+                (self.volume.stop if part == "volume" else self.volume_meter.shutdown)()
         if getattr(self, "music", None):
             self.music.shutdown()
         with self.lock:

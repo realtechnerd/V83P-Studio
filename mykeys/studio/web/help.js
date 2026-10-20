@@ -74,8 +74,14 @@ const HELP = {
         "Each layer has three actions: turn left, turn right and press. Click one and choose a new function.",
         "Volume and media keys are the usual choice. Brightness, scrolling or any normal key work too.",
       ]],
+      ["Volume display", [
+        "When the volume changes, the whole keyboard turns into a volume meter for a moment, filling from left to right, then fades back to your lighting.",
+        "Bar color: Auto picks your keyboard's accent color, or a contrasting one if your lighting is already close to it. Green → red changes with the level; Custom is any color you pick.",
+        "Muted shows as a dim red bar. Preview shows it at the current volume.",
+        "It needs the V83P Studio firmware and the cable. With music mode playing, the meter is drawn over the music.",
+      ]],
       ["Good to know", [
-        "Like key changes, this is saved on the keyboard instantly and works wireless too.",
+        "Knob changes are saved on the keyboard instantly and work wireless too.",
       ]],
     ],
   },

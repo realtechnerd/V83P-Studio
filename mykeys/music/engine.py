@@ -146,7 +146,10 @@ class MusicEngine:
             self._hear(t0)
             want = self._want(t0)
             try:
-                if want == "playing":
+                meter = getattr(self.svc, "volume_meter", None)
+                if want == "playing" and not self.active and meter is not None and meter.owns:
+                    pass                          # the volume meter is up: take over once it's done
+                elif want == "playing":
                     if not self.active:
                         self._take_over()
                     fade_until = 0.0
@@ -178,6 +181,9 @@ class MusicEngine:
         pal = self.spotify.album if s["palette"] == "album" and self.spotify.album else s["palette"]
         colors = self.vis.frame(a.snapshot(), t, s["style"], pal, s["underglow_vu"], s["brightness"] * fade)
         self.frame = colors
+        meter = getattr(self.svc, "volume_meter", None)
+        if meter is not None:
+            colors = meter.frame_over(colors, t)   # the volume meter, drawn over the music
         pk = self.svc.perkey
         pk.stream([c if c else (0, 0, 0) for c in colors])
         if self._live() and t - self._last_keepalive > KEEPALIVE:  # unchanged frames send nothing

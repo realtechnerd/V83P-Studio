@@ -19,6 +19,8 @@
 - **Music mode.** The keyboard dances to what Spotify is playing: 10 styles (spectrum, beat ripple, fireworks,
   waterfall…), palettes that can follow the album art, and tuning for sensitivity, smoothing and dynamics. It can also
   react to any sound on your PC.
+- **Volume display.** Turn the knob and the whole keyboard becomes a volume meter for a moment, sliding smoothly
+  left to right, then fades back to your lighting.
 - **Reactions.** Light up when something happens: a loading animation while an app starts, or a scene while a game is
   focused.
 - **Keys, macros and knob.** Remap all 4 layers, record or build macros (text, keys, shortcuts, delays), and choose what

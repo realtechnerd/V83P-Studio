@@ -198,6 +198,23 @@
       <header class="page-head"><div><div class="eyebrow mono">04 — Knob</div><h1>Knob</h1>
         <p class="sub">What turning and pressing the knob does on each layer.</p></div></header>
       <div class="knob-grid needs-cable" id="kn-grid"></div>
+      <div class="card vol-card">
+        <div class="card-head">
+          <div><h2>Volume display</h2>
+            <p class="hint">When the volume changes (the knob, media keys or Windows), the whole keyboard shows it for a
+              moment, filling left to right, then goes back to your lighting.</p></div>
+          <label class="switch needs-fw" title="Volume display"><input type="checkbox" id="vd-enabled"><i></i></label>
+        </div>
+        <div class="setting needs-fw"><div>Bar color<small>Auto uses your keyboard's accent color, or a contrasting one if your lighting is close to it.</small></div>
+          <div class="row gap">
+            <div class="seg" id="vd-color"><button data-c="auto">Auto</button><button data-c="gradient">Green → red</button><button data-c="custom">Custom</button></div>
+            <input type="color" id="vd-custom" value="#ff2a6d" style="width:46px;padding:2px">
+          </div></div>
+        <div class="row gap vd-foot">
+          <button class="btn needs-cable needs-fw" id="vd-preview">Preview</button>
+          <span class="muted" id="vd-level"></span>
+        </div>
+      </div>
     </section>
 
     <!-- MUSIC -->

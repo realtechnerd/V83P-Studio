@@ -1322,6 +1322,37 @@ function openFirmwareWizard(action, resume, backup) {
   $("#modal").onclick = null;                 // no closing by a stray click outside while flashing
 }
 
+/* ================= VOLUME DISPLAY (Knob page) ================= */
+const VD = { cfg: null };
+async function loadVolumeDisplay() {
+  const r = await api("/api/indicators").catch(() => null);
+  if (!r) return;
+  VD.cfg = r.volume;
+  renderVolumeDisplay(r);
+}
+function renderVolumeDisplay(r) {
+  const c = VD.cfg;
+  $("#vd-enabled").checked = c.enabled;
+  const mode = c.color === "auto" || c.color === "gradient" ? c.color : "custom";
+  $$("#vd-color button").forEach(b => b.classList.toggle("on", b.dataset.c === mode));
+  $("#vd-custom").classList.toggle("hidden", mode !== "custom");
+  if (mode === "custom") $("#vd-custom").value = c.color;
+  if (r && r.level != null) $("#vd-level").textContent = `Windows volume: ${Math.round(r.level * 100)}%${r.muted ? " (muted)" : ""}`;
+}
+async function saveVolumeDisplay(changes) {
+  Object.assign(VD.cfg, changes);
+  renderVolumeDisplay();
+  const r = await safe(() => api("/api/indicators", { volume: changes }));
+  if (r) VD.cfg = r.volume;
+}
+function initVolumeDisplay() {
+  $("#vd-enabled").onchange = e => saveVolumeDisplay({ enabled: e.target.checked });
+  $$("#vd-color button").forEach(b => b.onclick = () =>
+    saveVolumeDisplay({ color: b.dataset.c === "custom" ? $("#vd-custom").value : b.dataset.c }));
+  $("#vd-custom").onchange = e => saveVolumeDisplay({ color: e.target.value });
+  $("#vd-preview").onclick = () => safe(() => api("/api/indicators/preview", {}));
+}
+
 /* ================= MUSIC ================= */
 const MU = { cfg: null, view: null, frame: [], bands: [], timer: null, send: null };
 const MU_STYLES = {
@@ -1559,7 +1590,7 @@ function showPage(p, quiet) {
   if (p === "lighting") showLighting();
   if (p === "keys") { KM.view.layout(); KM.view.update(); }
   if (p === "macros") { MC.view.layout(); loadMacros(); MC.view.update(); }
-  if (p === "knob") renderKnob();
+  if (p === "knob") { renderKnob(); loadVolumeDisplay(); }
   if (p === "music") { MU.view.layout(); loadMusic(); }
   if (p === "reactions" && !quiet) loadReactions();
   if (p === "profiles" && !quiet) loadProfiles().then(loadAutoProfiles);
@@ -1624,6 +1655,7 @@ async function boot() {
   initTheme();
   document.addEventListener("input", e => { if (e.target.type === "range") rangeFill(e.target); });
   initHelp();
+  initVolumeDisplay();
   initLighting(); initKeys(); initMacros(); initReactions(); initProfiles(); initDevice(); initMusic();
   $$(".nav button").forEach(b => b.onclick = () => showPage(b.dataset.page));
   $$("[data-goto-fw]").forEach(b => b.onclick = () => { showPage("device"); setTimeout(() => $("#dv-fw")?.scrollIntoView({ behavior: "smooth", block: "center" }), 50); });
