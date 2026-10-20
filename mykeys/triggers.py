@@ -56,7 +56,7 @@ class TriggerManager:
         self.engine, self.rules, self.poll = engine, rules, poll
         self._stop = threading.Event()
         self._thread = None
-        self._launches = {}   # rule index -> (handle, root pid, started)
+        self._launches = {}   # rule index -> (handle, started)
         self._fg = {}         # rule index -> handle
 
     def start(self):
@@ -69,7 +69,7 @@ class TriggerManager:
         self._stop.set()
         if self._thread:
             self._thread.join(2)
-        for h, *_ in self._launches.values():
+        for h, _ in self._launches.values():
             self.engine.cancel(h)
         for h in self._fg.values():
             self.engine.cancel(h)
@@ -77,52 +77,73 @@ class TriggerManager:
         self._fg.clear()
 
     def _run(self):
-        known = set(psutil.pids())  # ignore everything already running
+        self._names = {}                       # pid -> process name (looked up once per process)
+        self._refresh_names()
+        # apps already open when we start don't count as launches
+        self._was_running = {i: bool(self._matching(r)) for i, r in enumerate(self.rules) if r["when"] == "app_launch"}
         while not self._stop.is_set():
             try:
-                known = self._tick(known)
+                self._tick()
             except Exception:
                 log.exception("trigger tick failed")
             self._stop.wait(self.poll)
 
-    def _tick(self, known):
-        now = time.monotonic()
+    def _refresh_names(self):
         pids = set(psutil.pids())
-        new = pids - known
-        launch_rules = [(i, r) for i, r in enumerate(self.rules) if r["when"] == "app_launch"]
+        for pid in pids - self._names.keys():
+            try:
+                self._names[pid] = psutil.Process(pid).name()
+            except psutil.Error:
+                self._names[pid] = None
+        for pid in self._names.keys() - pids:
+            del self._names[pid]
 
-        # --- app_launch: start ---
-        if new and launch_rules:
-            for pid in new:
-                try:
-                    name = psutil.Process(pid).name()
-                except psutil.Error:
-                    continue
-                for i, r in launch_rules:
-                    if i not in self._launches and _matches(name, r["apps"]):
-                        h = self.engine.play(from_spec({"name": r.get("name", name), **r["animation"]}))
-                        self._launches[i] = (h, pid, now)
-                        log.info("launch: %s (pid %d) -> rule %r", name, pid, r.get("name"))
+    def _matching(self, r):
+        return {pid for pid, n in self._names.items() if n and _matches(n, r["apps"])}
 
-        # --- app_launch: finish when a window appears, the process exits, or timeout ---
-        if self._launches:
-            windowed = pids_with_windows()
-            for i, (h, pid, t0) in list(self._launches.items()):
-                r = self.rules[i]
-                elapsed = now - t0
-                if elapsed < r.get("min_seconds", 0.8):
-                    continue
-                family = {pid}
-                try:
-                    family |= {c.pid for c in psutil.Process(pid).children(recursive=True)}
-                    alive = True
-                except psutil.Error:
-                    alive = False
-                if not alive or family & windowed or elapsed > r.get("timeout", 30):
-                    self.engine.cancel(h)
-                    del self._launches[i]
-                    if r.get("on_ready"):
-                        self.engine.play(from_spec(r["on_ready"]))
+    def _tick(self):
+        """App launch = the app goes from not running to running. Apps like Discord, Spotify or Steam start many
+        processes with the same name; each used to count as a new launch, and a helper that never opens a window
+        kept the reaction going. Now: one launch per app start, done when any of its processes (or their children)
+        shows a window, when it closes, or at the timeout. It can't fire again until the app has fully closed."""
+        now = time.monotonic()
+        self._refresh_names()
+
+        # --- app_launch ---
+        windowed = None
+        for i, r in enumerate(self.rules):
+            if r["when"] != "app_launch":
+                continue
+            matching = self._matching(r)
+            running, was = bool(matching), self._was_running.get(i, False)
+            self._was_running[i] = running
+            if running and not was and i not in self._launches:
+                h = self.engine.play(from_spec({"name": r.get("name", "launch"), **r["animation"]}))
+                self._launches[i] = (h, now)
+                log.info("launch: rule %r", r.get("name"))
+                continue
+            if i not in self._launches:
+                continue
+            h, t0 = self._launches[i]
+            elapsed = now - t0
+            if running and elapsed < r.get("min_seconds", 0.8):
+                continue
+            ready = False
+            if running:
+                if windowed is None:
+                    windowed = pids_with_windows()
+                family = set(matching)
+                for pid in matching:
+                    try:
+                        family |= {c.pid for c in psutil.Process(pid).children(recursive=True)}
+                    except psutil.Error:
+                        pass
+                ready = bool(family & windowed)
+            if ready or not running or elapsed > r.get("timeout", 30):
+                self.engine.cancel(h)
+                del self._launches[i]
+                if ready and r.get("on_ready"):
+                    self.engine.play(from_spec(r["on_ready"]))
 
         # --- foreground ---
         fg_rules = [(i, r) for i, r in enumerate(self.rules) if r["when"] == "foreground"]
@@ -137,4 +158,3 @@ class TriggerManager:
                     self._fg[i] = self.engine.play(from_spec(spec))
                 elif not hit and i in self._fg:
                     self.engine.cancel(self._fg.pop(i))
-        return pids
